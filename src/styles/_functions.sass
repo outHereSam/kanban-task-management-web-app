@@ -1,0 +1,9 @@
+@use 'sass:math'
+
+@function get-font-size($type, $size)
+    @if $type == 'header'
+        @return map.get($header-font-sizes, $size)
+    @else if $type == 'body'
+        @return map.get($body-font-sizes, $size)
+    @else
+        @error 'Invalid font type'
