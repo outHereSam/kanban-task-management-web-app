@@ -13,6 +13,7 @@ interface Column {
   tasks: Task[];
 }
 export interface Board {
+  id: number;
   name: string;
   columns: Column[];
 }

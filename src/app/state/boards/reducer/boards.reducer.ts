@@ -12,7 +12,9 @@ import {
 export const boardReducer = createReducer(
   initialBoardState,
   on(loadBoards, (state) => ({ ...state, loading: true, error: null })),
-  on(loadBoardsSuccess, (state) => ({ ...state, loading: false, error: null })),
+  on(loadBoardsSuccess, (state, { boards }) =>
+    boardAdapter.setAll(boards, { ...state, loading: false, error: null })
+  ),
   on(loadBoardsFailure, (state, { error }) => ({
     ...state,
     loading: false,

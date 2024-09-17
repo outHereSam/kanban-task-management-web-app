@@ -2,19 +2,18 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Board } from '../../models/board.model';
 
 export interface BoardState extends EntityState<Board> {
-  boards: Board[];
+  selectedBoardId: number | null;
   loading: boolean;
   error: string | null;
-  selectedBoardId: string | null;
 }
 
 export const boardAdapter: EntityAdapter<Board> = createEntityAdapter<Board>({
+  selectId: (board: Board) => board.id,
   sortComparer: false,
 });
 
 export const initialBoardState: BoardState = boardAdapter.getInitialState({
-  boards: [],
+  selectedBoardId: null,
   loading: false,
   error: null,
-  selectedBoardId: null,
 });

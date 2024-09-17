@@ -11,7 +11,7 @@ export const {
 } = boardAdapter.getSelectors(selectBoardState);
 
 // Select a single board
-export const selectBoardById = (id: string) =>
+export const selectBoardById = (id: number) =>
   createSelector(selectBoardEntities, (entities) => entities[id]);
 
 export const selectBoardLoading = createSelector(

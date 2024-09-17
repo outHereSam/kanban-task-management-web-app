@@ -16,9 +16,9 @@ export const addBoard = createAction(
 );
 export const updateBoard = createAction(
   '[Boards] Update Board',
-  props<{ board: Partial<Board> & { id: string } }>()
+  props<{ board: Partial<Board> & { id: number } }>()
 );
 export const deleteBoard = createAction(
   '[Boards] Delete Board',
-  props<{ id: string }>()
+  props<{ id: number }>()
 );

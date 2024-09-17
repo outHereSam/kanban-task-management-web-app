@@ -11,12 +11,11 @@ import {
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 @Injectable()
-export class BoardEffect {
+export class BoardEffects {
   constructor(
     private action$: Actions,
     private apiService: ApiService,
-    private localStorageService: LocalstorageService,
-    private store: Store
+    private localStorageService: LocalstorageService
   ) {}
 
   loadBoards$ = createEffect(() =>
