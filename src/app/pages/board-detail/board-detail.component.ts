@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectBoard } from '../../state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
+import { BoardContentComponent } from '../../components/board-content/board-content.component';
 
 @Component({
   selector: 'app-board-detail',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, BoardContentComponent],
   templateUrl: './board-detail.component.html',
   styleUrl: './board-detail.component.sass',
 })
