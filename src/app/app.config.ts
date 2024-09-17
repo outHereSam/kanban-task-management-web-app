@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { provideRouterStore } from '@ngrx/router-store';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideHttpClient } from '@angular/common/http';
 import { BoardEffects } from './state/boards/effects/boards.effects';
 import { boardReducer } from './state/boards/reducer/boards.reducer';
@@ -15,7 +15,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    provideStore(),
+    provideStore({
+      router: routerReducer,
+    }),
     provideState({
       name: 'boards',
       reducer: boardReducer,
