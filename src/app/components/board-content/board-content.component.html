@@ -1,1 +1,18 @@
-<p>board-content works!</p>
+<h1>{{ board.name }}</h1>
+
+<h4>Columns</h4>
+
+<div class="columns">
+  @for (column of board.columns; track $index) {
+  <div class="column">
+    <h5 class="column-name">{{ column.name }}</h5>
+    <ul>
+      @for (task of column.tasks; track $index) {
+      <li>
+        <app-task [task]="task" />
+      </li>
+      }
+    </ul>
+  </div>
+  }
+</div>

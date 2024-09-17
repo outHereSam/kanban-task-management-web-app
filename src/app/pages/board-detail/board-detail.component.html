@@ -1,1 +1,3 @@
-<app-board-content [board]="board$ | async" />
+@if (board$ | async; as board) {
+<app-board-content [board]="board" />
+}
