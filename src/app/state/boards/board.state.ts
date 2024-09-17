@@ -12,7 +12,7 @@ export const boardAdapter: EntityAdapter<Board> = createEntityAdapter<Board>({
   sortComparer: false,
 });
 
-export const initialState: BoardState = boardAdapter.getInitialState({
+export const initialBoardState: BoardState = boardAdapter.getInitialState({
   boards: [],
   loading: false,
   error: null,
