@@ -30,7 +30,6 @@ export class BoardEffect {
           return of(loadBoardsSuccess({ boards: boardsFromLocalStorage }));
         } else {
           return this.apiService.fetchData().pipe(
-            tap((boards) => console.log(boards)),
             map((boards) => {
               this.localStorageService.setItemInLocalStorage('boards', boards);
               return loadBoardsSuccess({ boards });
