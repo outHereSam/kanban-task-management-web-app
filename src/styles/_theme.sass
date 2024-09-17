@@ -8,6 +8,6 @@ $light-mode: (background: $clr-bg-light, text-main: $clr-text-main, btn-secondar
   @each $key, $value in $light-mode
     --#{$key}: #{$value}
   
-body.dark-mode
+[data-theme = "dark"]
   @each $key, $value in $dark-mode
     --#{$key}: #{$value}
