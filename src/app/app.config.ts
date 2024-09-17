@@ -6,13 +6,14 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideHttpClient } from '@angular/common/http';
+import { BoardEffect } from './state/boards/effects/boards.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     provideStore(),
-    provideEffects(),
+    provideEffects(BoardEffect),
     provideRouterStore(),
   ],
 };

@@ -3,17 +3,17 @@ import { boardAdapter, initialBoardState } from '../board.state';
 import {
   addBoard,
   deleteBoard,
-  loadBoardFailure,
+  loadBoardsFailure,
   loadBoards,
-  loadBoardSuccess,
+  loadBoardsSuccess,
   updateBoard,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
   initialBoardState,
   on(loadBoards, (state) => ({ ...state, loading: true, error: null })),
-  on(loadBoardSuccess, (state) => ({ ...state, loading: false, error: null })),
-  on(loadBoardFailure, (state, { error }) => ({
+  on(loadBoardsSuccess, (state) => ({ ...state, loading: false, error: null })),
+  on(loadBoardsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
