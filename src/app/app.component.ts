@@ -22,5 +22,8 @@ export class AppComponent {
 
   ngOnInit() {
     this.store.dispatch(loadBoards());
+    this.store
+      .select(selectAllBoards)
+      .subscribe((boards) => console.log(boards));
   }
 }
