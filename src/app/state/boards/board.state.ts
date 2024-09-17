@@ -11,3 +11,10 @@ export interface BoardState extends EntityState<Board> {
 export const boardAdapter: EntityAdapter<Board> = createEntityAdapter<Board>({
   sortComparer: false,
 });
+
+export const initialState: BoardState = boardAdapter.getInitialState({
+  boards: [],
+  loading: false,
+  error: null,
+  selectedBoardId: null,
+});
