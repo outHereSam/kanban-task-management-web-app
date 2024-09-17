@@ -7,11 +7,12 @@ import { Board } from './models/board.model';
 import { selectAllBoards } from './state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
 import { ApiService } from './services/api.service';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, AsyncPipe, SidebarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass',
 })
@@ -22,8 +23,5 @@ export class AppComponent {
 
   ngOnInit() {
     this.store.dispatch(loadBoards());
-    this.store
-      .select(selectAllBoards)
-      .subscribe((boards) => console.log(boards));
   }
 }

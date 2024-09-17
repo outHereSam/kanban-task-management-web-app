@@ -1,1 +1,12 @@
-<p>sidebar works!</p>
+@if(boards$ | async; as boards) {
+<h3>All Boards ({{ boards.length }})</h3>
+<ul>
+  @for(board of boards; track board.id) {
+  <li>
+    <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
+      {{ board.name }}
+    </a>
+  </li>
+  }
+</ul>
+}
