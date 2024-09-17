@@ -10,6 +10,7 @@ import { BoardEffects } from './state/boards/effects/boards.effects';
 import { boardReducer } from './state/boards/reducer/boards.reducer';
 import { themeReducer } from './state/theme/reducer/theme.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { ThemeEffects } from './state/theme/effects/theme.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       name: 'theme',
       reducer: themeReducer,
     }),
-    provideEffects(BoardEffects),
+    provideEffects(BoardEffects, ThemeEffects),
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],

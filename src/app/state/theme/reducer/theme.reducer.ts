@@ -6,7 +6,7 @@ export const themeReducer = createReducer(
   initialThemeState,
   on(toggleTheme, (state) => ({
     ...state,
-    mode: state.mode === 'light' ? 'dark' : 'light',
+    theme: state.theme === 'light' ? 'dark' : 'light',
   })),
-  on(setTheme, (state, { mode }) => ({ ...state, mode }))
+  on(setTheme, (state, { theme }) => ({ ...state, theme }))
 );

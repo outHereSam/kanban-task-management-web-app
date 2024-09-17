@@ -1,7 +1,7 @@
 export interface ThemeState {
-  mode: 'light' | 'dark';
+  theme: string;
 }
 
 export const initialThemeState = {
-  mode: 'light',
+  theme: 'light',
 };

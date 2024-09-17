@@ -1,14 +1,17 @@
-@if(boards$ | async; as boards) {
-<h3>All Boards ({{ boards.length }})</h3>
-<ul>
-  @for(board of boards; track board.id) {
-  <li>
-    <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
-      {{ board.name }}
-    </a>
-  </li>
+<div class="boards">
+  @if(boards$ | async; as boards) {
+  <h3>All Boards ({{ boards.length }})</h3>
+  <ul>
+    @for(board of boards; track board.id) {
+    <li>
+      <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
+        {{ board.name }}
+      </a>
+    </li>
+    }
+  </ul>
   }
-</ul>
+  <button>+ Create New Board</button>
+</div>
 
-<button>+ Create New Board</button>
-}
+<app-theme-toggle />

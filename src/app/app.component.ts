@@ -1,13 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadBoards } from './state/boards/actions/boards.actions';
-import { Observable } from 'rxjs';
-import { Board } from './models/board.model';
-import { selectAllBoards } from './state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
 import { ApiService } from './services/api.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { loadTheme } from './state/theme/actions/theme.actions';
 
 @Component({
   selector: 'app-root',
@@ -23,5 +21,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.store.dispatch(loadBoards());
+    this.store.dispatch(loadTheme());
   }
 }
