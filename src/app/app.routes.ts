@@ -16,6 +16,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'empty',
+    loadComponent: () =>
+      import('../app/pages/notfound/notfound.component').then(
+        (m) => m.NotfoundComponent
+      ),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('../app/pages/board-redirect/board-redirect.component').then(
