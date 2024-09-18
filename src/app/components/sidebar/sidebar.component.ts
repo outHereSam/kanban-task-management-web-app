@@ -4,13 +4,20 @@ import { selectAllBoards } from '../../state/boards/selectors/boards.selectors';
 import { Observable } from 'rxjs';
 import { Board } from '../../models/board.model';
 import { AsyncPipe } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { BoardFormComponent } from '../../shared/board-form/board-form.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [AsyncPipe, RouterLink, RouterLinkActive, ThemeToggleComponent],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    RouterLinkActive,
+    ThemeToggleComponent,
+    BoardFormComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.sass',
 })

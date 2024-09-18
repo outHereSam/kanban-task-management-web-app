@@ -7,8 +7,8 @@ import {
 } from '../../state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
 import { BoardContentComponent } from '../../components/board-content/board-content.component';
-import { BoardFormComponent } from '../../shared/board-form/board-form.component';
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-board-detail',
@@ -16,8 +16,8 @@ import { TaskFormComponent } from '../../shared/task-form/task-form.component';
   imports: [
     AsyncPipe,
     BoardContentComponent,
-    BoardFormComponent,
     TaskFormComponent,
+    HeaderComponent,
   ],
   templateUrl: './board-detail.component.html',
   styleUrl: './board-detail.component.sass',

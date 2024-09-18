@@ -1,3 +1,4 @@
+<app-header />
 @if (loading$ | async) {
 <div class="loading">Loading...</div>
 } @if (error$ | async; as error) {
@@ -5,6 +6,4 @@
 } @if (!(loading$ | async) && !(error$ | async) && (board$ | async); as board) {
 <app-board-content [board]="board" />
 }
-
-<app-board-form />
 <app-task-form />
