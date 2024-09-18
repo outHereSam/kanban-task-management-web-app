@@ -9,7 +9,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { addBoard } from '../../state/boards/actions/boards.actions';
+import {
+  addBoard,
+  updateBoard,
+} from '../../state/boards/actions/boards.actions';
 import { selectNextId } from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
 import { Board } from '../../models/board.model';
@@ -30,7 +33,7 @@ export class BoardFormComponent {
   constructor(private fb: FormBuilder, private store: Store) {
     this.boardForm = this.fb.group({});
     this.store.select(selectNextId).subscribe((id) => (this.nextId = id));
-    console.log(this.board.name);
+    // console.log(this.board.name);
   }
 
   ngOnInit() {
@@ -71,7 +74,10 @@ export class BoardFormComponent {
         columns: newColumns,
       };
 
-      console.log(newBoard);
+      if (this.board) {
+        newBoard.id = this.board.id;
+        this.store.dispatch(updateBoard({ board: newBoard }));
+      }
 
       this.store.dispatch(addBoard({ board: newBoard }));
       this.boardForm.get('name')?.reset();

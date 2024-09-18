@@ -15,4 +15,11 @@ export const routes: Routes = [
         (m) => m.BoardRedirectComponent
       ),
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('../app/pages/board-redirect/board-redirect.component').then(
+        (m) => m.BoardRedirectComponent
+      ),
+  },
 ];

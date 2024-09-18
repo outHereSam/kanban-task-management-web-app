@@ -1,5 +1,5 @@
 <div class="board-form">
-  <h3>{{ board ? "Edit Baord" : "Add New Board" }}</h3>
+  <h3>{{ board ? "Edit Board" : "Create New Board" }}</h3>
 
   <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
     <label for="name">Board Name</label>
@@ -21,6 +21,8 @@
       <button (click)="addColumn()">+Add New Column</button>
     </div>
 
-    <button type="submit">Create New Board</button>
+    <button type="submit">
+      {{ board ? "Save Changes" : "Create New Board" }}
+    </button>
   </form>
 </div>
