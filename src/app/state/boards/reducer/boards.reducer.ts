@@ -7,6 +7,8 @@ import {
   loadBoards,
   loadBoardsSuccess,
   updateBoard,
+  addTask,
+  updateTask,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -24,5 +26,62 @@ export const boardReducer = createReducer(
   on(updateBoard, (state, { board }) =>
     boardAdapter.updateOne({ id: board.id, changes: board }, state)
   ),
-  on(deleteBoard, (state, { id }) => boardAdapter.removeOne(id, state))
+  on(deleteBoard, (state, { id }) => boardAdapter.removeOne(id, state)),
+
+  // Add Task
+  on(addTask, (state, { boardId, columnName, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    const updatedColumns = board.columns.map((column) => {
+      if (column.name === columnName) {
+        return {
+          ...column,
+          tasks: [...column.tasks, task],
+        };
+      }
+      return column;
+    });
+
+    const updatedBoard = {
+      ...board,
+      columns: updatedColumns,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+
+  // Update Task
+  on(updateTask, (state, { boardId, columnName, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    const updatedColumns = board.columns.map((column) => {
+      if (column.name === columnName) {
+        const updatedTasks = column.tasks.map((t) =>
+          t.id === task.id ? { ...t, ...task } : t
+        );
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    const updatedBoard = {
+      ...board,
+      columns: updatedColumns,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  })
 );

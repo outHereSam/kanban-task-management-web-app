@@ -1,15 +1,19 @@
 <div class="task-form">
   <h3>Add New Task</h3>
 
-  <form [formGroup]="taskForm">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <label for="title">Title</label>
-    <input type="text" name="title" placeholder="eg. Take coffee break" />
+    <input
+      type="text"
+      formControlName="title"
+      placeholder="eg. Take coffee break"
+    />
 
     <label for="description">Description</label>
     <textarea
       rows="5"
       cols="30"
-      name="description"
+      formControlName="description"
       placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
     ></textarea>
 
@@ -40,7 +44,7 @@
     <select name="status" formControlName="status">
       <option>Select Status</option>
       @for (status of statuses; track $index) {
-      <option value="{{ $index }}">{{ status }}</option>
+      <option [value]="status">{{ status }}</option>
       }
     </select>
 
