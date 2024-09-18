@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectBoard } from '../../state/boards/selectors/boards.selectors';
+import {
+  selectBoard,
+  selectBoardError,
+  selectBoardLoading,
+} from '../../state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
 import { BoardContentComponent } from '../../components/board-content/board-content.component';
 import { BoardFormComponent } from '../../shared/board-form/board-form.component';
@@ -14,6 +18,8 @@ import { BoardFormComponent } from '../../shared/board-form/board-form.component
 })
 export class BoardDetailComponent {
   board$ = this.store.select(selectBoard);
+  loading$ = this.store.select(selectBoardLoading);
+  error$ = this.store.select(selectBoardError);
 
   constructor(private store: Store) {}
 

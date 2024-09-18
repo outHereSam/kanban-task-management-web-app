@@ -1,4 +1,8 @@
-@if (board$ | async; as board) {
+@if (loading$ | async) {
+<div class="loading">Loading...</div>
+} @if (error$ | async; as error) {
+<div class="error">{{ error }}</div>
+} @if (!(loading$ | async) && !(error$ | async) && (board$ | async); as board) {
 <app-board-content [board]="board" />
 }
 
