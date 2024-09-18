@@ -28,7 +28,7 @@ export class BoardFormComponent {
   boardForm: FormGroup;
   // nextId$: Observable<number | null>;
   nextId!: number;
-  @Input() board!: Board;
+  @Input() board!: Board | null | undefined;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.boardForm = this.fb.group({});
@@ -36,7 +36,7 @@ export class BoardFormComponent {
     // console.log(this.board.name);
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.initForm();
   }
 
