@@ -11,8 +11,10 @@
     }
   </ul>
   }
-  <button>+ Create New Board</button>
+  <button (click)="toggleFormModal()">+ Create New Board</button>
 </div>
 
-<app-board-form />
+<div class="formModal" [style]="{ display: isFormOpened ? 'block' : 'none' }">
+  <app-board-form />
+</div>
 <app-theme-toggle />

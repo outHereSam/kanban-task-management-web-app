@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { addBoard } from '../../state/boards/actions/boards.actions';
 import { selectNextId } from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
+import { Board } from '../../models/board.model';
 
 @Component({
   selector: 'app-board-form',
@@ -24,9 +25,12 @@ export class BoardFormComponent {
   boardForm: FormGroup;
   // nextId$: Observable<number | null>;
   nextId!: number;
+  @Input() board!: Board;
+
   constructor(private fb: FormBuilder, private store: Store) {
     this.boardForm = this.fb.group({});
     this.store.select(selectNextId).subscribe((id) => (this.nextId = id));
+    console.log(this.board.name);
   }
 
   ngOnInit() {
@@ -35,7 +39,7 @@ export class BoardFormComponent {
 
   initForm() {
     this.boardForm = this.fb.group({
-      name: ['', Validators.required],
+      name: [this.board?.name || '', Validators.required],
       columns: this.fb.array([
         this.fb.control('Todo'),
         this.fb.control('Doing'),

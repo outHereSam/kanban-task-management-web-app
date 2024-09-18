@@ -1,2 +1,12 @@
-<p>header works!</p>
-<app-board-form />
+<header>
+  <h1>{{ board.name }}</h1>
+  <button>+Add New Task</button>
+  <div class="options">
+    <button (click)="toggleFormModal()">Edit Board</button>
+    <button>Delete Board</button>
+  </div>
+</header>
+
+<div class="formModal" [style]="{ display: isFormOpened ? 'block' : 'none' }">
+  <app-board-form [board]="board" />
+</div>

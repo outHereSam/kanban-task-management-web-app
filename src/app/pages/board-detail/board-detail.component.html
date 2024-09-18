@@ -1,5 +1,6 @@
-<app-header />
-@if (loading$ | async) {
+@if(board$ | async; as board) {
+<app-header [board]="board" />
+} @if (loading$ | async) {
 <div class="loading">Loading...</div>
 } @if (error$ | async; as error) {
 <div class="error">{{ error }}</div>

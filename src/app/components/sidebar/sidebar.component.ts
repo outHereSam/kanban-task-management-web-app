@@ -23,8 +23,13 @@ import { BoardFormComponent } from '../../shared/board-form/board-form.component
 })
 export class SidebarComponent {
   boards$: Observable<Board[]> | undefined;
+  isFormOpened: boolean = false;
 
   constructor(private store: Store) {
     this.boards$ = this.store.select(selectAllBoards);
+  }
+
+  toggleFormModal() {
+    this.isFormOpened = !this.isFormOpened;
   }
 }
