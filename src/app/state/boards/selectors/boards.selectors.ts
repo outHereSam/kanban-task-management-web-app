@@ -46,3 +46,9 @@ export const selectBoardError = createSelector(
   selectBoardState,
   (state: BoardState) => state.error
 );
+
+export const selectTask = (taskId: number, columnName: string) =>
+  createSelector(selectBoard, (board) => {
+    const column = board?.columns.find((c) => c.name === columnName);
+    return column?.tasks.find((t) => t.id === taskId);
+  });

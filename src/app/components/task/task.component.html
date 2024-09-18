@@ -1,1 +1,4 @@
-<h4 class="task-title">{{ task.title }}</h4>
+<div class="task">
+  <h5 class="task-title">{{ task.title }}</h5>
+  <app-task-detail-modal [task]="task" />
+</div>

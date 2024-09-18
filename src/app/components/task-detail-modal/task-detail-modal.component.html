@@ -1,0 +1,26 @@
+<div class="task-modal">
+  <h4 class="task-name">{{ task.title }}</h4>
+
+  <p class="task-description">{{ task.description }}</p>
+
+  <ul>
+    @for (subTask of task.subtasks; track $index) {
+    <li>
+      <input
+        (change)="updateSubtask(boardId, task.status, task)"
+        type="checkbox"
+        [checked]="subTask.isCompleted"
+      />
+      {{ subTask.title }}
+    </li>
+    }
+  </ul>
+
+  <select name="status" formControlName="status">
+    @for (status of statuses; track $index) {
+    <option [value]="status" [selected]="status === task.status">
+      {{ status }}
+    </option>
+    }
+  </select>
+</div>

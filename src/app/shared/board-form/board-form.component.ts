@@ -75,9 +75,12 @@ export class BoardFormComponent {
 
   onSubmit() {
     if (this.boardForm.valid) {
-      const newColumns = this.columns.value.map((columnName: string) => {
-        return { name: columnName, tasks: [] };
-      });
+      const newColumns = this.columns.value.map(
+        (columnName: string, index: number) => {
+          const existingTasks = this.board?.columns[index].tasks || [];
+          return { name: columnName, tasks: existingTasks };
+        }
+      );
 
       const newBoard = {
         id: this.nextId,
