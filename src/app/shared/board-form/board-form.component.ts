@@ -29,17 +29,13 @@ import { Board } from '../../models/board.model';
 })
 export class BoardFormComponent {
   boardForm: FormGroup;
-  // nextId$: Observable<number | null>;
   nextId!: number;
   @Input() board: Board | null | undefined;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.boardForm = this.fb.group({
-      name: [this.board?.name || '', Validators.required],
-      columns: this.fb.array([
-        this.fb.control('Todo'),
-        this.fb.control('Doing'),
-      ]),
+      name: ['', Validators.required],
+      columns: this.fb.array([]),
     });
     this.store.select(selectNextId).subscribe((id) => (this.nextId = id));
   }
@@ -50,13 +46,18 @@ export class BoardFormComponent {
     }
   }
 
+  initializeColumns() {
+    const columns = this.board?.columns || [];
+    const columnFormControls = columns.map((column) =>
+      this.fb.control(column.name, Validators.required)
+    );
+    return columnFormControls;
+  }
+
   initForm() {
     this.boardForm = this.fb.group({
       name: [this.board?.name || '', Validators.required],
-      columns: this.fb.array([
-        this.fb.control('Todo'),
-        this.fb.control('Doing'),
-      ]),
+      columns: this.fb.array(this.initializeColumns()),
     });
   }
 

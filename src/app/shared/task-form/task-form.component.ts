@@ -28,6 +28,7 @@ export class TaskFormComponent {
   statuses: string[] = [];
   currentBoardId!: number;
   private boardSubscription!: Subscription;
+
   constructor(private fb: FormBuilder, private store: Store) {
     this.taskForm = this.fb.group({});
     this.board$ = this.store.select(selectBoard);
@@ -78,6 +79,7 @@ export class TaskFormComponent {
           task: this.taskForm.value,
         })
       );
+      this.taskForm.reset();
     } else {
       console.log(this.taskForm.errors);
     }
