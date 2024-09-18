@@ -30,6 +30,6 @@ export class BoardDetailComponent {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.board$.subscribe((board) => console.log(board));
+    // this.board$.subscribe((board) => console.log(board));
   }
 }

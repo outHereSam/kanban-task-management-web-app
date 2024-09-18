@@ -24,6 +24,6 @@ export class AppComponent {
     this.store.dispatch(loadBoards());
     this.store.dispatch(loadTheme());
 
-    console.log('boards from store:', this.store.select(selectAllBoards));
+    // console.log('boards from store:', this.store.select(selectAllBoards));
   }
 }

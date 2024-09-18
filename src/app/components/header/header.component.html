@@ -3,10 +3,9 @@
   <button>+Add New Task</button>
   <div class="options">
     <button (click)="toggleFormModal()">Edit Board</button>
-    <button>Delete Board</button>
+    <!-- <button (click)="deleteBoard()">Delete Board</button> -->
   </div>
 </header>
-
 <div class="formModal" [style]="{ display: isFormOpened ? 'block' : 'none' }">
   <app-board-form [board]="board" />
 </div>

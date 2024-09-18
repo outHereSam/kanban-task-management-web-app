@@ -13,7 +13,10 @@ import {
   addBoard,
   updateBoard,
 } from '../../state/boards/actions/boards.actions';
-import { selectNextId } from '../../state/boards/selectors/boards.selectors';
+import {
+  selectBoard,
+  selectNextId,
+} from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
 import { Board } from '../../models/board.model';
 
@@ -28,16 +31,23 @@ export class BoardFormComponent {
   boardForm: FormGroup;
   // nextId$: Observable<number | null>;
   nextId!: number;
-  @Input() board!: Board | null | undefined;
+  @Input() board: Board | null | undefined;
 
   constructor(private fb: FormBuilder, private store: Store) {
-    this.boardForm = this.fb.group({});
+    this.boardForm = this.fb.group({
+      name: [this.board?.name || '', Validators.required],
+      columns: this.fb.array([
+        this.fb.control('Todo'),
+        this.fb.control('Doing'),
+      ]),
+    });
     this.store.select(selectNextId).subscribe((id) => (this.nextId = id));
-    // console.log(this.board.name);
   }
 
-  ngOnChanges() {
-    this.initForm();
+  ngOnChanges(simpleChanges: any) {
+    if (simpleChanges.board) {
+      this.initForm();
+    }
   }
 
   initForm() {
