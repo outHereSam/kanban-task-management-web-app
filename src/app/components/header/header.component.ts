@@ -4,14 +4,13 @@ import { Board } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import { deleteBoard } from '../../state/boards/actions/boards.actions';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { selectBoardById } from '../../state/boards/selectors/boards.selectors';
 import { AsyncPipe } from '@angular/common';
+import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [BoardFormComponent, AsyncPipe],
+  imports: [BoardFormComponent, AsyncPipe, TaskFormComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.sass',
 })

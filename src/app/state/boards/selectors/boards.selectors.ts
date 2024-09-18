@@ -33,6 +33,11 @@ export const selectNextId = createSelector(selectBoardIds, (ids) =>
   ids.length > 0 ? Math.max(...(ids as number[])) + 1 : -1
 );
 
+export const selectStatusById = (id: number) =>
+  createSelector(selectBoardEntities, (entities) =>
+    entities[id]?.columns.map((c) => c.name)
+  );
+
 export const selectBoardLoading = createSelector(
   selectBoardState,
   (state: BoardState) => state.loading
