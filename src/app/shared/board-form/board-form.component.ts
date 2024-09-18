@@ -41,7 +41,7 @@ export class BoardFormComponent {
   }
 
   ngOnChanges(simpleChanges: any) {
-    if (simpleChanges.board) {
+    if (simpleChanges.board && this.board) {
       this.initForm();
     }
   }
@@ -77,7 +77,7 @@ export class BoardFormComponent {
     if (this.boardForm.valid) {
       const newColumns = this.columns.value.map(
         (columnName: string, index: number) => {
-          const existingTasks = this.board?.columns[index].tasks || [];
+          const existingTasks = this.board?.columns[index]?.tasks || [];
           return { name: columnName, tasks: existingTasks };
         }
       );
