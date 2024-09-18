@@ -2,7 +2,7 @@
   <h3>Add New Board</h3>
 
   <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
-    <label for="name">Name</label>
+    <label for="name">Board Name</label>
     <input
       type="text"
       name="name"
@@ -11,7 +11,7 @@
     />
 
     <div formArrayName="columns">
-      <h4>Columns</h4>
+      <h4>Board Columns</h4>
 
       @for (column of columns.controls; track $index) {
       <input type="text" formControlName="{{ $index }}" />

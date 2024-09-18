@@ -8,11 +8,17 @@ import {
 import { AsyncPipe } from '@angular/common';
 import { BoardContentComponent } from '../../components/board-content/board-content.component';
 import { BoardFormComponent } from '../../shared/board-form/board-form.component';
+import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 
 @Component({
   selector: 'app-board-detail',
   standalone: true,
-  imports: [AsyncPipe, BoardContentComponent, BoardFormComponent],
+  imports: [
+    AsyncPipe,
+    BoardContentComponent,
+    BoardFormComponent,
+    TaskFormComponent,
+  ],
   templateUrl: './board-detail.component.html',
   styleUrl: './board-detail.component.sass',
 })

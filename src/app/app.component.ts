@@ -6,6 +6,7 @@ import { AsyncPipe } from '@angular/common';
 import { ApiService } from './services/api.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { loadTheme } from './state/theme/actions/theme.actions';
+import { selectAllBoards } from './state/boards/selectors/boards.selectors';
 
 @Component({
   selector: 'app-root',
@@ -22,5 +23,7 @@ export class AppComponent {
   ngOnInit() {
     this.store.dispatch(loadBoards());
     this.store.dispatch(loadTheme());
+
+    console.log('boards from store:', this.store.select(selectAllBoards));
   }
 }
