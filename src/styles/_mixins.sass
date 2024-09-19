@@ -7,17 +7,18 @@
         color: $clr-white
         font-size: get-font-size('header', 'medium')
         font-weight: bold
-    @elseif $style == 'modal'
+    @else if $style == 'modal'
         background-color: $clr-main-purple
         width: 100%
         padding: 8px 0
         color: $clr-white
         font-size: get-font-size('body', 'large')
-    @elseif $style == 'mobile'
+    @else if $style == 'mobile'
         background-color: $clr-main-purple
         padding: 8px 16px
         color: $clr-white
         font-size: get-font-size('body', 'large')
+        border-radius: 24px
 
 @mixin flex-row()
     display: flex
