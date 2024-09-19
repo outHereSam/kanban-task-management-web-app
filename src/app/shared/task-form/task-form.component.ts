@@ -71,12 +71,20 @@ export class TaskFormComponent {
 
   onSubmit() {
     if (this.taskForm.valid) {
+      const newSubtasks = this.taskForm.value.subtasks.map(
+        (subtask: string) => {
+          return { title: subtask, isCompleted: false };
+        }
+      );
       console.log(this.taskForm.value);
       this.store.dispatch(
         addTask({
           boardId: this.currentBoardId,
           columnName: this.taskForm.value.status,
-          task: this.taskForm.value,
+          task: {
+            ...this.taskForm.value,
+            subtasks: newSubtasks,
+          },
         })
       );
       this.taskForm.reset();
