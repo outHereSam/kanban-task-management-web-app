@@ -63,12 +63,16 @@ export const boardReducer = createReducer(
 
     const updatedColumns = board.columns.map((column) => {
       if (column.name === columnName) {
-        const updatedTasks = column.tasks.map((t) =>
-          t.id === task.id ? { ...t, ...task } : t
-        );
         return {
           ...column,
-          tasks: updatedTasks,
+          tasks: column.tasks.filter((t) => t.id !== task.id),
+        };
+      }
+
+      if (column.name === task.status) {
+        return {
+          ...column,
+          tasks: [...column.tasks, task],
         };
       }
       return column;

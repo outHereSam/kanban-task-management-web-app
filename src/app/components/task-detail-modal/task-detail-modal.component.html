@@ -6,11 +6,7 @@
   <ul>
     @for (subTask of task.subtasks; track $index) {
     <li>
-      <input
-        (change)="updateSubtask(boardId, task.status, task)"
-        type="checkbox"
-        [checked]="subTask.isCompleted"
-      />
+      <input type="checkbox" [checked]="subTask.isCompleted" />
       {{ subTask.title }}
     </li>
     }
