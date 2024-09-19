@@ -23,7 +23,7 @@
         />
       </svg>
     </button>
-    <button class="toggle-options">
+    <button class="toggle-options" [cdkMenuTriggerFor]="menu">
       <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
         <g fill="#828FA3" fill-rule="evenodd">
           <circle cx="2.308" cy="2.308" r="2.308" />
@@ -32,10 +32,14 @@
         </g>
       </svg>
     </button>
-    <div class="options">
-      <button (click)="toggleFormModal()">Edit Board</button>
-      <button (click)="deleteBoard(board.id)">Delete Board</button>
-    </div>
+    <ng-template #menu>
+      <div class="options" cdkMenu>
+        <button (click)="toggleFormModal()">Edit Board</button>
+        <button class="delete" (click)="deleteBoard(board.id)">
+          Delete Board
+        </button>
+      </div>
+    </ng-template>
   </div>
 </header>
 

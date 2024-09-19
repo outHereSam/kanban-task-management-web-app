@@ -11,6 +11,7 @@ import { boardReducer } from './state/boards/reducer/boards.reducer';
 import { themeReducer } from './state/theme/reducer/theme.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ThemeEffects } from './state/theme/effects/theme.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(BoardEffects, ThemeEffects),
     provideRouterStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }), provideAnimationsAsync(),
   ],
 };

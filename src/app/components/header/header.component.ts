@@ -6,11 +6,19 @@ import { deleteBoard } from '../../state/boards/actions/boards.actions';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [BoardFormComponent, AsyncPipe, TaskFormComponent],
+  imports: [
+    BoardFormComponent,
+    AsyncPipe,
+    TaskFormComponent,
+    CdkMenuTrigger,
+    CdkMenu,
+    CdkMenuItem,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.sass',
 })
