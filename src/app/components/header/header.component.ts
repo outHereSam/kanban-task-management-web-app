@@ -17,6 +17,7 @@ import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 export class HeaderComponent {
   @Input() board!: Board;
   isFormOpened: boolean = false;
+  isOptionsOpened: boolean = false;
   // board$: Observable<Board | undefined>;
 
   constructor(private store: Store, private router: Router) {}
@@ -25,6 +26,10 @@ export class HeaderComponent {
 
   toggleFormModal() {
     this.isFormOpened = !this.isFormOpened;
+  }
+
+  toggleOptions() {
+    this.isOptionsOpened = !this.isOptionsOpened;
   }
 
   deleteBoard(id: number) {

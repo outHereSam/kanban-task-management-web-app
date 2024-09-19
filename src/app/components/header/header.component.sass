@@ -1,0 +1,51 @@
+@use '../../../styles/_variables' as *
+@use '../../../styles/_mixins' as *
+@use '../../../styles/theme'
+@use '../../../styles/functions'
+
+header
+    @include flex-row()
+    background: var(--card-bg)
+    padding: 20px 16px
+
+    .info
+        @include flex-row()
+        gap: 16px
+
+    .menu
+        border: none
+        background: none
+        appearance: none
+        cursor: pointer
+        @include flex-row()
+        gap: 8px
+
+        .board-name
+            font-size: functions.get-font-size('header', 'large')
+            color: var(--text-main)
+
+    .actions
+        @include flex-row()
+        gap: 16px
+
+        button
+            border: none
+
+        .toggle-options
+            background: none
+            cursor: pointer
+
+        .new-task
+            display: flex
+            justify-content: center
+            align-content: center
+            padding: 10px 18px
+            background-color: $clr-main-purple
+            border-radius: 24px
+            
+        
+            
+
+    .options
+        display: none
+        

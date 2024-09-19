@@ -1,20 +1,22 @@
-<div class="boards">
-  @if(boards$ | async; as boards) {
-  <h3>All Boards ({{ boards.length }})</h3>
-  <ul>
-    @for(board of boards; track board.id) {
-    <li>
-      <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
-        {{ board.name }}
-      </a>
-    </li>
+<div class="sidebar">
+  <div class="boards">
+    @if(boards$ | async; as boards) {
+    <h3>All Boards ({{ boards.length }})</h3>
+    <ul>
+      @for(board of boards; track board.id) {
+      <li>
+        <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
+          {{ board.name }}
+        </a>
+      </li>
+      }
+    </ul>
     }
-  </ul>
-  }
-  <button (click)="toggleFormModal()">+ Create New Board</button>
-</div>
+    <button (click)="toggleFormModal()">+ Create New Board</button>
+  </div>
 
-<div class="formModal" [style]="{ display: isFormOpened ? 'block' : 'none' }">
-  <app-board-form />
+  <div class="formModal" [style]="{ display: isFormOpened ? 'block' : 'none' }">
+    <app-board-form />
+  </div>
+  <app-theme-toggle />
 </div>
-<app-theme-toggle />
