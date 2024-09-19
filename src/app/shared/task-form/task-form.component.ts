@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
-import { Board } from '../../models/board.model';
+import { Board, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
@@ -23,6 +23,7 @@ import { addTask } from '../../state/boards/actions/boards.actions';
   styleUrl: './task-form.component.sass',
 })
 export class TaskFormComponent {
+  @Input() task!: Task;
   taskForm: FormGroup;
   board$: Observable<Board | undefined>;
   statuses: string[] = [];
@@ -45,15 +46,20 @@ export class TaskFormComponent {
     });
   }
 
+  initializeSubtasks() {
+    const subtasks = this.task?.subtasks || [];
+    const subtaskFormControls = subtasks.map((subtask) =>
+      this.fb.control(subtask.title, Validators.required)
+    );
+    return subtaskFormControls;
+  }
+
   initForm() {
     this.taskForm = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
-      subtasks: this.fb.array([
-        this.fb.control('', Validators.required),
-        this.fb.control('', Validators.required),
-      ]),
-      status: ['', Validators.required],
+      title: [this.task?.title || '', Validators.required],
+      description: [this.task?.description || ''],
+      subtasks: this.fb.array(this.initializeSubtasks()),
+      status: [this.task?.status || '', Validators.required],
     });
   }
 
@@ -76,17 +82,17 @@ export class TaskFormComponent {
           return { title: subtask, isCompleted: false };
         }
       );
-      console.log(this.taskForm.value);
-      this.store.dispatch(
-        addTask({
-          boardId: this.currentBoardId,
-          columnName: this.taskForm.value.status,
-          task: {
-            ...this.taskForm.value,
-            subtasks: newSubtasks,
-          },
-        })
-      );
+
+      const newTask = {
+        boardId: this.currentBoardId,
+        columnName: this.taskForm.value.status,
+        task: {
+          ...this.taskForm.value,
+          subtasks: newSubtasks,
+        },
+      };
+
+      this.store.dispatch(addTask(newTask));
       this.taskForm.reset();
     } else {
       console.log(this.taskForm.errors);

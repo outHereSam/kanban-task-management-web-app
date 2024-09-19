@@ -1,5 +1,5 @@
 <div class="task-form">
-  <h3>Add New Task</h3>
+  <h3>{{ task ? "Edit Task" : "Add New Task" }}</h3>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <label for="title">Title</label>
@@ -48,6 +48,6 @@
       }
     </select>
 
-    <button type="submit">Create Task</button>
+    <button type="submit">{{ task ? "Save Changes" : "Create Task" }}</button>
   </form>
 </div>

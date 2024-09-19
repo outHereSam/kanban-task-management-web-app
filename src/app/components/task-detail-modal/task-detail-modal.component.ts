@@ -10,11 +10,12 @@ import {
   updateSubtask,
   updateTaskStatus,
 } from '../../state/boards/actions/boards.actions';
+import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 
 @Component({
   selector: 'app-task-detail-modal',
   standalone: true,
-  imports: [],
+  imports: [TaskFormComponent],
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })
@@ -23,6 +24,7 @@ export class TaskDetailModalComponent {
   board$: Observable<Board | undefined>;
   boardId!: number;
   statuses: string[] = [];
+  isEditModalOpened: boolean = false;
   private boardSubscription!: Subscription;
 
   constructor(private store: Store) {
@@ -79,6 +81,10 @@ export class TaskDetailModalComponent {
         },
       })
     );
+  }
+
+  toggleEditTask() {
+    this.isEditModalOpened = !this.isEditModalOpened;
   }
 
   ngOnDestroy() {

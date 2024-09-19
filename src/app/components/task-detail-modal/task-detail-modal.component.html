@@ -24,4 +24,15 @@
     </option>
     }
   </select>
+
+  <!-- Edit Task -->
+  <button class="edit" (click)="toggleEditTask()">Edit Task</button>
+</div>
+
+<!-- Task Form -->
+<div
+  class="edit-modal"
+  [style]="{ display: isEditModalOpened ? 'block' : 'none' }"
+>
+  <app-task-form [task]="task" />
 </div>

@@ -15,7 +15,7 @@ import {
 } from '../../state/boards/actions/boards.actions';
 import {
   selectBoard,
-  selectNextId,
+  selectNextBoardId,
 } from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
 import { Board } from '../../models/board.model';
@@ -37,7 +37,7 @@ export class BoardFormComponent {
       name: ['', Validators.required],
       columns: this.fb.array([]),
     });
-    this.store.select(selectNextId).subscribe((id) => (this.nextId = id));
+    this.store.select(selectNextBoardId).subscribe((id) => (this.nextId = id));
   }
 
   ngOnChanges(simpleChanges: any) {
