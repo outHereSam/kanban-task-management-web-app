@@ -5,18 +5,37 @@
 
   <ul>
     @for (subTask of task.subtasks; track $index) {
-    <li>
-      <input type="checkbox" [checked]="subTask.isCompleted" />
+    <li [id]="task.id">
+      <input
+        (change)="updateSubtask($event)"
+        type="checkbox"
+        [checked]="subTask.isCompleted"
+        [value]="subTask.title"
+      />
       {{ subTask.title }}
     </li>
     }
   </ul>
 
-  <select (change)="updateSubtask($event)" name="status">
+  <select (change)="updateTaskStatus($event)" name="status">
     @for (status of statuses; track $index) {
     <option [value]="status" [selected]="status === task.status">
       {{ status }}
     </option>
     }
   </select>
+
+  <!-- Edit Task -->
+  <button class="edit" (click)="toggleEditTask()">Edit Task</button>
+
+  <!-- Delete Task -->
+  <button class="delete" (click)="deleteTask(task.id)">Delete Task</button>
+</div>
+
+<!-- Task Form -->
+<div
+  class="edit-modal"
+  [style]="{ display: isEditModalOpened ? 'block' : 'none' }"
+>
+  <app-task-form [task]="task" />
 </div>

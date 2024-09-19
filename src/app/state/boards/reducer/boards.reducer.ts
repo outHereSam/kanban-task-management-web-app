@@ -8,7 +8,10 @@ import {
   loadBoardsSuccess,
   updateBoard,
   addTask,
+  updateSubtask,
+  updateTaskStatus,
   updateTask,
+  deleteTask,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -55,13 +58,14 @@ export const boardReducer = createReducer(
     );
   }),
 
-  // Update Task
-  on(updateTask, (state, { boardId, columnName, task }) => {
+  // Update Task Status
+  on(updateTaskStatus, (state, { boardId, columnName, task }) => {
     const board = state.entities[boardId];
 
     if (!board) return state;
 
     // Step 1: Remove the task from its original column
+    // TODO: Remove deleting of task from one column when updating task
     const updatedColumns = board.columns.map((column) => {
       if (column.name === columnName) {
         const updatedTasks = column.tasks.filter((t) => t.id !== task.id);
@@ -88,6 +92,108 @@ export const boardReducer = createReducer(
     const updatedBoard = {
       ...board,
       columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+
+  // Update subtask
+  on(updateSubtask, (state, { boardId, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    // Find the column where the task belongs
+    const columnsWithUpdatedTask = board.columns.map((column) => {
+      if (column.name === task.status) {
+        // Find the task that needs to be updated within this column
+        const updatedTasks = column.tasks.map((existingTask) => {
+          if (existingTask.id === task.id) {
+            // Replace the task with the updated version (including updated subtasks)
+            return { ...task };
+          }
+          return existingTask;
+        });
+
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    // Create the updated board with the modified columns
+    const updatedBoard = {
+      ...board,
+      columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+
+  // Update Task
+  on(updateTask, (state, { boardId, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    // Find the column where the task belongs
+    const columnsWithUpdatedTask = board.columns.map((column) => {
+      if (column.name === task.status) {
+        // Find the task that needs to be updated within this column
+        const updatedTasks = column.tasks.map((existingTask) => {
+          if (existingTask.id === task.id) {
+            // Replace the task with the updated version (including updated subtasks)
+            return { ...task };
+          }
+          return existingTask;
+        });
+
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    // Create the updated board with the modified columns
+    const updatedBoard = {
+      ...board,
+      columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+  on(deleteTask, (state, { boardId, columnName, taskId }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    const updatedColumns = board.columns.map((column) => {
+      if (column.name === columnName) {
+        const updatedTasks = column.tasks.filter((task) => task.id !== taskId);
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    const updatedBoard = {
+      ...board,
+      columns: updatedColumns,
     };
 
     return boardAdapter.updateOne(
