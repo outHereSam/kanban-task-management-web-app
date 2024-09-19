@@ -11,6 +11,7 @@ import {
   updateSubtask,
   updateTaskStatus,
   updateTask,
+  deleteTask,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -167,6 +168,32 @@ export const boardReducer = createReducer(
     const updatedBoard = {
       ...board,
       columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+  on(deleteTask, (state, { boardId, columnName, taskId }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    const updatedColumns = board.columns.map((column) => {
+      if (column.name === columnName) {
+        const updatedTasks = column.tasks.filter((task) => task.id !== taskId);
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    const updatedBoard = {
+      ...board,
+      columns: updatedColumns,
     };
 
     return boardAdapter.updateOne(

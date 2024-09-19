@@ -7,6 +7,7 @@ import {
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
 import {
+  deleteTask,
   updateSubtask,
   updateTaskStatus,
 } from '../../state/boards/actions/boards.actions';
@@ -79,6 +80,16 @@ export class TaskDetailModalComponent {
           ...this.task,
           subtasks: updatedSubtask,
         },
+      })
+    );
+  }
+
+  deleteTask(id: number) {
+    this.store.dispatch(
+      deleteTask({
+        boardId: this.boardId,
+        columnName: this.task.status,
+        taskId: id,
       })
     );
   }
