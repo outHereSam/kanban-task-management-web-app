@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
-import { Board, Task } from '../../models/board.model';
+import { Board, Column, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
   selectStatusById,
 } from '../../state/boards/selectors/boards.selectors';
-import { addTask } from '../../state/boards/actions/boards.actions';
+import { addTask, updateTask } from '../../state/boards/actions/boards.actions';
 
 @Component({
   selector: 'app-task-form',
@@ -92,8 +92,14 @@ export class TaskFormComponent {
         },
       };
 
-      this.store.dispatch(addTask(newTask));
-      this.taskForm.reset();
+      if (this.task) {
+        // Update task if this form is editing
+        newTask.task.id = this.task.id;
+        this.store.dispatch(updateTask({ ...newTask }));
+      } else {
+        this.store.dispatch(addTask(newTask));
+        this.taskForm.reset();
+      }
     } else {
       console.log(this.taskForm.errors);
     }

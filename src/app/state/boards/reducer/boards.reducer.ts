@@ -10,6 +10,7 @@ import {
   addTask,
   updateSubtask,
   updateTaskStatus,
+  updateTask,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -56,7 +57,7 @@ export const boardReducer = createReducer(
     );
   }),
 
-  // Update Task
+  // Update Task Status
   on(updateTaskStatus, (state, { boardId, columnName, task }) => {
     const board = state.entities[boardId];
 
@@ -100,6 +101,44 @@ export const boardReducer = createReducer(
 
   // Update subtask
   on(updateSubtask, (state, { boardId, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    // Find the column where the task belongs
+    const columnsWithUpdatedTask = board.columns.map((column) => {
+      if (column.name === task.status) {
+        // Find the task that needs to be updated within this column
+        const updatedTasks = column.tasks.map((existingTask) => {
+          if (existingTask.id === task.id) {
+            // Replace the task with the updated version (including updated subtasks)
+            return { ...task };
+          }
+          return existingTask;
+        });
+
+        return {
+          ...column,
+          tasks: updatedTasks,
+        };
+      }
+      return column;
+    });
+
+    // Create the updated board with the modified columns
+    const updatedBoard = {
+      ...board,
+      columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+
+  // Update Task
+  on(updateTask, (state, { boardId, task }) => {
     const board = state.entities[boardId];
 
     if (!board) return state;
