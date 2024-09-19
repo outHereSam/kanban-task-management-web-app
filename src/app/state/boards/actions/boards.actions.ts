@@ -32,8 +32,13 @@ export const addTask = createAction(
   props<{ boardId: number; columnName: string; task: Task }>()
 );
 
-export const updateTask = createAction(
+export const updateTaskStatus = createAction(
   '[Task] Update Task',
+  props<{ boardId: number; columnName: string; task: Task }>()
+);
+
+export const updateSubtask = createAction(
+  '[Subtask] Update Subtask',
   props<{ boardId: number; columnName: string; task: Task }>()
 );
 

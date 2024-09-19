@@ -1,12 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Board, Task } from '../../models/board.model';
+import { Board, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
-import { updateTask } from '../../state/boards/actions/boards.actions';
+import {
+  updateSubtask,
+  updateTaskStatus,
+} from '../../state/boards/actions/boards.actions';
 
 @Component({
   selector: 'app-task-detail-modal',
@@ -37,16 +40,42 @@ export class TaskDetailModalComponent {
     console.log(this.task);
   }
 
-  updateSubtask(event: any) {
+  updateTaskStatus(event: any) {
     const newStatus = event.target.value;
 
     this.store.dispatch(
-      updateTask({
+      updateTaskStatus({
         boardId: this.boardId,
         columnName: this.task.status,
         task: {
           ...this.task,
           status: newStatus,
+        },
+      })
+    );
+  }
+
+  updateSubtask(event: any) {
+    const isCompleted = event.target.checked;
+    const subtaskTitle = event.target.value;
+
+    const updatedSubtask = this.task.subtasks.map((subtask: Subtask) => {
+      if (subtask.title === subtaskTitle) {
+        return {
+          ...subtask,
+          isCompleted: isCompleted,
+        };
+      }
+      return subtask;
+    });
+
+    this.store.dispatch(
+      updateSubtask({
+        boardId: this.boardId,
+        columnName: this.task.status,
+        task: {
+          ...this.task,
+          subtasks: updatedSubtask,
         },
       })
     );

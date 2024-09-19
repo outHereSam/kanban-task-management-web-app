@@ -8,7 +8,8 @@ import {
   loadBoardsSuccess,
   updateBoard,
   addTask,
-  updateTask,
+  updateSubtask,
+  updateTaskStatus,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -56,12 +57,13 @@ export const boardReducer = createReducer(
   }),
 
   // Update Task
-  on(updateTask, (state, { boardId, columnName, task }) => {
+  on(updateTaskStatus, (state, { boardId, columnName, task }) => {
     const board = state.entities[boardId];
 
     if (!board) return state;
 
     // Step 1: Remove the task from its original column
+    // TODO: Remove deleting of task from one column when updating task
     const updatedColumns = board.columns.map((column) => {
       if (column.name === columnName) {
         const updatedTasks = column.tasks.filter((t) => t.id !== task.id);
@@ -79,6 +81,44 @@ export const boardReducer = createReducer(
         return {
           ...column,
           tasks: [...column.tasks, task], // Append the updated task while preserving the other tasks
+        };
+      }
+      return column;
+    });
+
+    // Create the updated board with the modified columns
+    const updatedBoard = {
+      ...board,
+      columns: columnsWithUpdatedTask,
+    };
+
+    return boardAdapter.updateOne(
+      { id: boardId, changes: updatedBoard },
+      state
+    );
+  }),
+
+  // Update subtask
+  on(updateSubtask, (state, { boardId, task }) => {
+    const board = state.entities[boardId];
+
+    if (!board) return state;
+
+    // Find the column where the task belongs
+    const columnsWithUpdatedTask = board.columns.map((column) => {
+      if (column.name === task.status) {
+        // Find the task that needs to be updated within this column
+        const updatedTasks = column.tasks.map((existingTask) => {
+          if (existingTask.id === task.id) {
+            // Replace the task with the updated version (including updated subtasks)
+            return { ...task };
+          }
+          return existingTask;
+        });
+
+        return {
+          ...column,
+          tasks: updatedTasks,
         };
       }
       return column;
