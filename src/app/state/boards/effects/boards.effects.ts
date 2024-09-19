@@ -7,19 +7,28 @@ import {
   loadBoardsFailure,
   loadBoards,
   loadBoardsSuccess,
+  addBoard,
+  updateBoard,
+  deleteBoard,
+  addTask,
+  updateTaskStatus,
+  updateSubtask,
+  deleteTask,
 } from '../actions/boards.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { selectAllBoards } from '../selectors/boards.selectors';
 
 @Injectable()
 export class BoardEffects {
   constructor(
-    private action$: Actions,
+    private actions$: Actions,
     private apiService: ApiService,
-    private localStorageService: LocalstorageService
+    private localStorageService: LocalstorageService,
+    private store: Store
   ) {}
 
   loadBoards$ = createEffect(() =>
-    this.action$.pipe(
+    this.actions$.pipe(
       ofType(loadBoards),
       mergeMap(() => {
         const boardsFromLocalStorage =
@@ -40,5 +49,28 @@ export class BoardEffects {
         }
       })
     )
+  );
+
+  updateLocalStorage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          addBoard,
+          updateBoard,
+          deleteBoard,
+          addTask,
+          updateTaskStatus,
+          updateSubtask,
+          deleteTask
+        ),
+        switchMap(() =>
+          this.store.select(selectAllBoards).pipe(
+            tap((boards) => {
+              this.localStorageService.setItemInLocalStorage('boards', boards);
+            })
+          )
+        )
+      ),
+    { dispatch: false }
   );
 }
