@@ -40,7 +40,6 @@ export class TaskDetailModalComponent {
         this.statuses = board.columns.map((column) => column.name);
       }
     });
-    console.log(this.task);
   }
 
   updateTaskStatus(event: any) {
