@@ -3,6 +3,7 @@ export interface Subtask {
   isCompleted: boolean;
 }
 export interface Task {
+  id: number;
   title: string;
   description: string;
   status: string;
