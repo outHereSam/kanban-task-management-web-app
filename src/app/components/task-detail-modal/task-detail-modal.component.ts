@@ -34,9 +34,27 @@ export class TaskDetailModalComponent {
         this.statuses = board.columns.map((column) => column.name);
       }
     });
+    console.log(this.task);
   }
 
-  updateSubtask(boardId: number, columnName: string, task: Task) {
-    this.store.dispatch(updateTask({ boardId, columnName, task }));
+  updateSubtask(event: any) {
+    const newStatus = event.target.value;
+
+    this.store.dispatch(
+      updateTask({
+        boardId: this.boardId,
+        columnName: this.task.status,
+        task: {
+          ...this.task,
+          status: newStatus,
+        },
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.boardSubscription) {
+      this.boardSubscription.unsubscribe();
+    }
   }
 }

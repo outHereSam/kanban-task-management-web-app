@@ -12,7 +12,7 @@
     }
   </ul>
 
-  <select name="status" formControlName="status">
+  <select (change)="updateSubtask($event)" name="status">
     @for (status of statuses; track $index) {
     <option [value]="status" [selected]="status === task.status">
       {{ status }}
