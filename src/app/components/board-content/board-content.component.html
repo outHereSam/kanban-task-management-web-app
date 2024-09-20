@@ -1,8 +1,14 @@
 <div class="columns">
   @for (column of board.columns; track $index) {
   <div class="column">
-    <h5 class="column-name">{{ column.name }}</h5>
-    <ul>
+    <h5 class="column-name">
+      <span
+        class="column-color"
+        [style]="{ background: colorList[$index] }"
+      ></span
+      >{{ column.name }} ({{ column.tasks.length }})
+    </h5>
+    <ul class="tasks">
       @for (task of column.tasks; track $index) {
       <li>
         <app-task [task]="task" />

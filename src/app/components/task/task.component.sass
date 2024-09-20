@@ -1,2 +1,20 @@
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
+@use '../../../styles/functions' as *
+
 .task
-    background-color: tomato
+    width: 280px
+    background: var(--card-bg)
+    padding: 24px 16px
+    border-radius: 8px
+    box-shadow: var(--card-shadow)
+
+    .task-title
+        font-size: get-font-size('header', 'medium')
+        color: var(--text-main)
+
+    .subtask-count
+        font-size: get-font-size('body', 'medium')
+        color: var(--text-secondary)
+        font-weight: bold
+        margin: 8px 0 0 0

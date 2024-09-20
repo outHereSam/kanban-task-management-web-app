@@ -1,4 +1,7 @@
 <div class="task">
   <h5 class="task-title">{{ task.title }}</h5>
-  <app-task-detail-modal [task]="task" />
+  <p class="subtask-count">
+    {{ completedSubtaskCount }} of {{ task.subtasks.length }} subtasks
+  </p>
+  <!-- <app-task-detail-modal [task]="task" /> -->
 </div>
