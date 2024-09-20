@@ -1,53 +1,72 @@
 <div class="task-form">
-  <h3>{{ task ? "Edit Task" : "Add New Task" }}</h3>
+  <h3 class="title">{{ taskData ? "Edit Task" : "Add New Task" }}</h3>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-    <label for="title">Title</label>
-    <input
-      type="text"
-      formControlName="title"
-      placeholder="eg. Take coffee break"
-    />
-
-    <label for="description">Description</label>
-    <textarea
-      rows="5"
-      cols="30"
-      formControlName="description"
-      placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
-    ></textarea>
-
-    <div formArrayName="subtasks">
-      <h4>Subtasks</h4>
-
-      @for (subtask of subtasks.controls; track $index) { @if ($index === 0) {
+    <div>
+      <label for="title">Title</label>
       <input
         type="text"
-        formControlName="{{ $index }}"
-        placeholder="eg. Make coffee"
+        formControlName="title"
+        placeholder="eg. Take coffee break"
       />
-      } @else if ($index === 1) {
-      <input
-        type="text"
-        formControlName="{{ $index }}"
-        placeholder="eg. Drink coffe & smile"
-      />
-
-      } @else {
-      <input type="text" formControlName="{{ $index }}" />
-      }
-      <button (click)="removeSubtask($index)" class="remove">X</button>
-      }
-      <button (click)="addSubtask()">+Add New Subtask</button>
     </div>
 
-    <select name="status" formControlName="status">
-      <option>Select Status</option>
-      @for (status of statuses; track $index) {
-      <option [value]="status">{{ status }}</option>
-      }
-    </select>
+    <div>
+      <label for="description">Description</label>
+      <textarea
+        rows="5"
+        cols="30"
+        formControlName="description"
+        placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+      ></textarea>
+    </div>
 
-    <button type="submit">{{ task ? "Save Changes" : "Create Task" }}</button>
+    <div class="subtasks" formArrayName="subtasks">
+      <label>Subtasks</label>
+
+      @for (subtask of subtasks.controls; track $index) {
+      <div class="sub">
+        @if ($index === 0) {
+        <input
+          type="text"
+          formControlName="{{ $index }}"
+          placeholder="eg. Make coffee"
+        />
+        } @else if ($index === 1) {
+        <input
+          type="text"
+          formControlName="{{ $index }}"
+          placeholder="eg. Drink coffe & smile"
+        />
+        } @else {
+        <input type="text" formControlName="{{ $index }}" />
+        }
+        <button (click)="removeSubtask($index)" class="remove">
+          <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#828FA3" fill-rule="evenodd">
+              <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z" />
+              <path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      }
+      <button class="moreSubtasks" (click)="addSubtask()">
+        +Add New Subtask
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-select name="status" formControlName="status">
+        <!-- <option>Select Status</option> -->
+        @for (status of statuses; track $index) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit">
+      {{ taskData ? "Save Changes" : "Create Task" }}
+    </button>
   </form>
 </div>

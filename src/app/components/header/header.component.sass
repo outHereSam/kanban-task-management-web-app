@@ -1,0 +1,70 @@
+@use '../../../styles/_variables' as *
+@use '../../../styles/_mixins' as *
+@use '../../../styles/theme'
+@use '../../../styles/functions'
+
+header
+    @include flex-row()
+    background: var(--card-bg)
+    padding: 20px 16px
+    // position: fixed
+    // left: 0
+    // top: 0
+    // width: 100%
+    // z-index: 1001
+
+    .info
+        @include flex-row()
+        gap: 16px
+
+    .menu
+        border: none
+        background: none
+        appearance: none
+        cursor: pointer
+        @include flex-row()
+        gap: 8px
+
+        .board-name
+            font-size: functions.get-font-size('header', 'large')
+            color: var(--text-main)
+
+    .actions
+        @include flex-row()
+        gap: 16px
+
+        button
+            border: none
+
+        .toggle-options
+            background: none
+            cursor: pointer
+
+        .new-task
+            display: flex
+            justify-content: center
+            align-content: center
+            @include button('mobile')
+
+.cdk-menu
+    padding: 16px
+    background-color: var(--card-bg)
+    display: flex
+    flex-direction: column
+    gap: 16px
+    margin: 15px 0 0 0
+    border-radius: 8px
+    box-shadow: var(--card-shadow)
+
+    button
+        background: none
+        appearance: none
+        border: none
+        color: var(--text-secondary)
+        font-size: get-font-size('body', 'large')
+
+    .delete
+        color: $clr-red
+
+
+        

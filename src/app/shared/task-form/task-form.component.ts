@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -6,8 +6,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
-import { Board, Column, Task } from '../../models/board.model';
+import { Board, Column, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
@@ -18,11 +23,20 @@ import { addTask, updateTask } from '../../state/boards/actions/boards.actions';
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    MatDialogModule,
+  ],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.sass',
 })
 export class TaskFormComponent {
+  taskData = inject(MAT_DIALOG_DATA);
   @Input() task!: Task;
   taskForm: FormGroup;
   board$: Observable<Board | undefined>;
@@ -33,6 +47,7 @@ export class TaskFormComponent {
   constructor(private fb: FormBuilder, private store: Store) {
     this.taskForm = this.fb.group({});
     this.board$ = this.store.select(selectBoard);
+    console.log(this.taskData);
   }
 
   ngOnInit() {
@@ -47,8 +62,8 @@ export class TaskFormComponent {
   }
 
   initializeSubtasks() {
-    const subtasks = this.task?.subtasks || [];
-    const subtaskFormControls = subtasks.map((subtask) =>
+    const subtasks = this.taskData?.subtasks || [];
+    const subtaskFormControls = subtasks.map((subtask: Subtask) =>
       this.fb.control(subtask.title, Validators.required)
     );
     return subtaskFormControls;
@@ -56,10 +71,17 @@ export class TaskFormComponent {
 
   initForm() {
     this.taskForm = this.fb.group({
-      title: [this.task?.title || '', Validators.required],
-      description: [this.task?.description || ''],
-      subtasks: this.fb.array(this.initializeSubtasks()),
-      status: [this.task?.status || '', Validators.required],
+      title: [this.taskData?.title || '', Validators.required],
+      description: [this.taskData?.description || ''],
+      subtasks: this.fb.array(
+        this.taskData?.subtasks
+          ? this.initializeSubtasks()
+          : [
+              this.fb.control('', Validators.required),
+              this.fb.control('', Validators.required),
+            ]
+      ),
+      status: [this.taskData?.status || '', Validators.required],
     });
   }
 
@@ -94,7 +116,7 @@ export class TaskFormComponent {
 
       if (this.task) {
         // Update task if this form is editing
-        newTask.task.id = this.task.id;
+        newTask.task.id = this.taskData.id;
         this.store.dispatch(updateTask({ ...newTask }));
       } else {
         this.store.dispatch(addTask(newTask));

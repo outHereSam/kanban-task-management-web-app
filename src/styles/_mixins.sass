@@ -1,0 +1,29 @@
+@use './_variables' as *
+
+@mixin button($style)
+    border: none
+    appearance: none
+    font-weight: bold
+    @if $style == 'action'
+        padding: 15px 18px
+        background-color: $clr-main-purple
+        color: $clr-white
+        font-size: get-font-size('header', 'medium')
+    @else if $style == 'modal'
+        background-color: $clr-main-purple
+        width: 100%
+        padding: 8px 0
+        color: $clr-white
+        font-size: get-font-size('body', 'large')
+        border-radius: 20px
+    @else if $style == 'mobile'
+        background-color: $clr-main-purple
+        padding: 8px 16px
+        color: $clr-white
+        font-size: get-font-size('body', 'large')
+        border-radius: 24px
+
+@mixin flex-row()
+    display: flex
+    justify-content: space-between
+    align-items: center
