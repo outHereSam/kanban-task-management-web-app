@@ -1,5 +1,5 @@
 <div class="task-form">
-  <h3 class="title">{{ task ? "Edit Task" : "Add New Task" }}</h3>
+  <h3 class="title">{{ taskData ? "Edit Task" : "Add New Task" }}</h3>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <div>
@@ -65,6 +65,8 @@
       </mat-select>
     </mat-form-field>
 
-    <button type="submit">{{ task ? "Save Changes" : "Create Task" }}</button>
+    <button type="submit">
+      {{ taskData ? "Save Changes" : "Create Task" }}
+    </button>
   </form>
 </div>

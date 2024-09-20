@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Board, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
@@ -6,6 +6,8 @@ import {
   selectBoard,
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import {
   deleteTask,
   updateSubtask,
@@ -16,11 +18,13 @@ import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 @Component({
   selector: 'app-task-detail-modal',
   standalone: true,
-  imports: [TaskFormComponent],
+  imports: [TaskFormComponent, MatDialogModule],
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })
 export class TaskDetailModalComponent {
+  dialog = inject(MatDialog);
+
   @Input() task!: Task;
   board$: Observable<Board | undefined>;
   boardId!: number;
@@ -30,6 +34,19 @@ export class TaskDetailModalComponent {
 
   constructor(private store: Store) {
     this.board$ = this.store.select(selectBoard);
+  }
+
+  openCreateForm() {
+    this.dialog.open(TaskFormComponent, {
+      width: '480px',
+    });
+  }
+
+  openEditForm() {
+    this.dialog.open(TaskFormComponent, {
+      width: '480px',
+      data: this.task,
+    });
   }
 
   ngOnInit() {
