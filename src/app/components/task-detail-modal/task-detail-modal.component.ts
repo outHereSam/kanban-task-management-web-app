@@ -87,9 +87,9 @@ export class TaskDetailModalComponent {
     this.store.dispatch(
       updateTaskStatus({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.status,
         task: {
-          ...this.task,
+          ...this.taskData,
           status: newStatus,
         },
       })
