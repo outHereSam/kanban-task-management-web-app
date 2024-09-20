@@ -1,5 +1,55 @@
-.sidebar
-    display: none
+@use '../../../styles'
+@use '../../../styles/functions' as *
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
 
-.activeboard
-    color: pink
+.sidebar
+    background: var(--card-bg)
+    padding: 16px 24px 16px 0
+
+    h3
+        font-size: get-font-size('body', 'medium')
+        color: var(--text-secondary)
+        text-transform: uppercase
+        letter-spacing: 2.4px
+        margin: 0 0 20px 24px
+
+    .boards
+        margin: 0 0 16px 0
+
+    .board, .active, .createBoard
+        // border: solid 1px pink
+        padding:  16px 70px 16px 24px
+        display: flex
+        align-items: center
+        gap: 12px
+
+        a
+            text-decoration: none
+            color: var(--text-secondary)
+            font-size: get-font-size('header', 'medium')
+            font-weight: bold
+
+
+        .activeboard
+            color: $clr-white
+
+    .active
+        background-color: $clr-main-purple
+        border-top-right-radius: 100px
+        border-bottom-right-radius: 100px
+
+        svg path
+            fill: $clr-white
+
+    .createBoard
+        color: $clr-main-purple
+        font-weight: bold
+        border: none
+        background: none
+
+        svg path
+            fill: $clr-main-purple
+
+
+
