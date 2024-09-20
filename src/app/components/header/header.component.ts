@@ -57,6 +57,12 @@ export class HeaderComponent {
     });
   }
 
+  openCreateForm() {
+    this.dialog.open(TaskFormComponent, {
+      width: '480px',
+    });
+  }
+
   toggleFormModal() {
     this.isFormOpened = !this.isFormOpened;
   }

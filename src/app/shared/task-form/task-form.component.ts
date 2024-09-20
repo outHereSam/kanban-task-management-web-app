@@ -6,6 +6,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
 import { Board, Column, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
@@ -18,7 +23,14 @@ import { addTask, updateTask } from '../../state/boards/actions/boards.actions';
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+  ],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.sass',
 })
@@ -58,7 +70,14 @@ export class TaskFormComponent {
     this.taskForm = this.fb.group({
       title: [this.task?.title || '', Validators.required],
       description: [this.task?.description || ''],
-      subtasks: this.fb.array(this.initializeSubtasks()),
+      subtasks: this.fb.array(
+        this.task?.subtasks
+          ? this.initializeSubtasks()
+          : [
+              this.fb.control('', Validators.required),
+              this.fb.control('', Validators.required),
+            ]
+      ),
       status: [this.task?.status || '', Validators.required],
     });
   }

@@ -10,7 +10,11 @@
 
     <div class="theme-toggle">
       <label class="switch">
-        <input type="checkbox" (change)="toggleTheme()" />
+        <input
+          type="checkbox"
+          [checked]="themeMode === 'dark'"
+          (change)="toggleTheme()"
+        />
         <span class="slider"></span>
       </label>
     </div>
