@@ -10,4 +10,11 @@ import { TaskDetailModalComponent } from '../task-detail-modal/task-detail-modal
 })
 export class TaskComponent {
   @Input() task!: Task;
+  completedSubtaskCount: number = 0;
+
+  ngOnInit() {
+    this.task.subtasks.map((subtask) => {
+      if (subtask.isCompleted) this.completedSubtaskCount += 1;
+    });
+  }
 }

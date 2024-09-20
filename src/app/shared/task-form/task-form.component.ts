@@ -47,7 +47,6 @@ export class TaskFormComponent {
   constructor(private fb: FormBuilder, private store: Store) {
     this.taskForm = this.fb.group({});
     this.board$ = this.store.select(selectBoard);
-    console.log(this.taskData);
   }
 
   ngOnInit() {
