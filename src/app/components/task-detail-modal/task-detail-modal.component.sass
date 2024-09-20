@@ -4,6 +4,7 @@
 
 .task-modal
     padding: 24px
+    background-color: var(--card-bg)
 
     .task-name
         font-size: get-font-size('header', 'large')
@@ -40,6 +41,14 @@
             background-color: var(--background)
             padding: 13px 8px
             border-radius: 4px
-            
+
             input
                 outline: none
+
+                &:checked + span
+                    text-decoration: line-through
+                    color: var(--text-secondary)
+                    
+            
+            
+            

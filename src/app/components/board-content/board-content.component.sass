@@ -3,12 +3,17 @@
 @use '../../../styles/variables' as *
 
 .columns
+    height: 100%
     display: flex
     gap: 24px
     overflow-x: scroll 
     padding: 24px
 
     .column
+        // border: solid 1px pink
+        width: 280px
+        // flex-basis: 1
+        flex-shrink: 0
         .column-name
             display: flex
             align-items: center

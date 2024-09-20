@@ -1,23 +1,26 @@
 <div class="task-modal">
-  <h4 class="task-name">{{ taskData.task.title }}</h4>
+  <h4 class="task-name">{{ taskData.title }}</h4>
 
-  <p class="task-description">{{ taskData.task.description }}</p>
+  <p class="task-description">{{ taskData.description }}</p>
 
   <div class="subtasks">
     <h4 class="subtitle">
-      Subtasks ({{ completedSubtaskCount }} of
-      {{ taskData.task.subtasks.length }})
+      Subtasks ({{ completedSubtaskCount$ | async }} of
+      {{ taskData.subtasks.length }})
     </h4>
     <ul>
-      @for (subTask of taskData.task.subtasks; track $index) {
-      <li [id]="taskData.task.id">
+      @for (subTask of taskData.subtasks; track $index) {
+      <li
+        [id]="taskData.id"
+        [class]="subTask.isCompleted ? 'checked' : 'subtask'"
+      >
         <input
           (change)="updateSubtask($event)"
           type="checkbox"
           [checked]="subTask.isCompleted"
           [value]="subTask.title"
         />
-        {{ subTask.title }}
+        <span>{{ subTask.title }}</span>
       </li>
       }
     </ul>
@@ -25,7 +28,7 @@
 
   <select (change)="updateTaskStatus($event)" name="status">
     @for (status of statuses; track $index) {
-    <option [value]="status" [selected]="status === taskData.task.status">
+    <option [value]="status" [selected]="status === taskData.status">
       {{ status }}
     </option>
     }
@@ -35,7 +38,5 @@
   <button class="edit" (click)="openEditForm()">Edit Task</button>
 
   <!-- Delete Task -->
-  <button class="delete" (click)="deleteTask(taskData.task.id)">
-    Delete Task
-  </button>
+  <button class="delete" (click)="deleteTask(taskData.id)">Delete Task</button>
 </div>

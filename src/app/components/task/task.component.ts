@@ -30,10 +30,7 @@ export class TaskComponent {
   openDialog() {
     this.dialog.open(TaskDetailModalComponent, {
       width: '480px',
-      data: {
-        task: this.task,
-        completedSubtaskCount: this.completedSubtaskCount,
-      },
+      data: this.task,
     });
   }
 }
