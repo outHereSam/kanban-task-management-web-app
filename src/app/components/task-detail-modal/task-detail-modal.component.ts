@@ -6,7 +6,7 @@ import {
   selectBoard,
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import {
   deleteTask,
@@ -24,12 +24,14 @@ import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 })
 export class TaskDetailModalComponent {
   dialog = inject(MatDialog);
+  taskData = inject(MAT_DIALOG_DATA);
 
   @Input() task!: Task;
   board$: Observable<Board | undefined>;
   boardId!: number;
   statuses: string[] = [];
   isEditModalOpened: boolean = false;
+  completedSubtaskCount: number = 0;
   private boardSubscription!: Subscription;
 
   constructor(private store: Store) {
@@ -78,22 +80,24 @@ export class TaskDetailModalComponent {
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
-    const updatedSubtask = this.task.subtasks.map((subtask: Subtask) => {
-      if (subtask.title === subtaskTitle) {
-        return {
-          ...subtask,
-          isCompleted: isCompleted,
-        };
+    const updatedSubtask = this.taskData.task.subtasks.map(
+      (subtask: Subtask) => {
+        if (subtask.title === subtaskTitle) {
+          return {
+            ...subtask,
+            isCompleted: isCompleted,
+          };
+        }
+        return subtask;
       }
-      return subtask;
-    });
+    );
 
     this.store.dispatch(
       updateSubtask({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.task.status,
         task: {
-          ...this.task,
+          ...this.taskData.task,
           subtasks: updatedSubtask,
         },
       })
@@ -104,7 +108,7 @@ export class TaskDetailModalComponent {
     this.store.dispatch(
       deleteTask({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.task.status,
         taskId: id,
       })
     );

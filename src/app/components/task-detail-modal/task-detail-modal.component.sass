@@ -1,5 +1,45 @@
-.task-modal
-    background-color: pink
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
+@use '../../../styles/functions' as *
 
-.edit-modal
-    background-color: #f3ffc3
+.task-modal
+    padding: 24px
+
+    .task-name
+        font-size: get-font-size('header', 'large')
+        color: var(--text-main)
+        margin: 0 0 24px 0
+
+    .task-description
+        font-size: get-font-size('body', 'large')
+        color: var(--text-secondary)
+        line-height: 23px
+        margin: 0 0 24px 0
+
+    .subtasks
+        margin: 0 0 24px 0
+        .subtitle
+            font-size: get-font-size('body', 'medium')
+            color: var(--text-secondary)
+            font-weight: bold
+            margin: 0 0 16px 0
+
+        ul
+            display: flex
+            flex-direction: column
+            gap: 8px
+
+        ul li
+            list-style: none
+            font-size: get-font-size('body', 'medium')
+            color: var(--text-main)
+            font-weight: bold
+            display: flex
+            align-items: center
+            gap: 16px
+            background-color: var(--background)
+            padding: 13px 8px
+            border-radius: 4px
+            
+            input
+                outline: none
