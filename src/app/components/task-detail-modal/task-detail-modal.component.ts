@@ -72,7 +72,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.task$.subscribe((updatedTask) => {
         if (updatedTask) {
-          console.log('Task updated:', updatedTask);
+          // console.log('Task updated:', updatedTask);
           this.taskData = { ...updatedTask, boardId: this.taskData.boardId };
         }
       })
@@ -89,7 +89,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           // Handle the result if needed
-          console.log(result);
+          // console.log(result);
         }
       })
     );
@@ -110,7 +110,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
   }
 
   updateSubtask(event: any) {
-    console.log('Updating subtask:', event);
+    // console.log('Updating subtask:', event);
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
@@ -118,13 +118,13 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
       subtask.title === subtaskTitle ? { ...subtask, isCompleted } : subtask
     );
 
-    console.log('Dispatching updateSubtask action:', {
-      boardId: this.taskData.boardId,
-      task: {
-        ...this.taskData,
-        subtasks: updatedSubtasks,
-      },
-    });
+    // console.log('Dispatching updateSubtask action:', {
+    //   boardId: this.taskData.boardId,
+    //   task: {
+    //     ...this.taskData,
+    //     subtasks: updatedSubtasks,
+    //   },
+    // });
 
     this.store.dispatch(
       updateSubtask({
