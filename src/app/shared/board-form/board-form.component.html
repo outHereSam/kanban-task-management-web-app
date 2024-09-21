@@ -1,28 +1,31 @@
 <div class="board-form">
-  <h3>{{ board ? "Edit Board" : "Create New Board" }}</h3>
+  <h3>{{ boardData ? "Edit Board" : "Create New Board" }}</h3>
 
   <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
-    <label for="name">Board Name</label>
-    <input
-      type="text"
-      name="name"
-      formControlName="name"
-      placeholder="eg. Web Design"
-    />
+    <div>
+      <label for="name">Board Name</label>
+      <input
+        type="text"
+        name="name"
+        formControlName="name"
+        placeholder="eg. Web Design"
+      />
+    </div>
 
     <div formArrayName="columns">
-      <h4>Board Columns</h4>
+      <label>Board Columns</label>
 
       @for (column of columns.controls; track $index) {
-      <input type="text" formControlName="{{ $index }}" />
-      <button (click)="removeColumn($index)" class="remove">X</button>
+      <div class="column">
+        <input type="text" formControlName="{{ $index }}" />
+        <button (click)="removeColumn($index)" class="remove">X</button>
+      </div>
       }
-
-      <button (click)="addColumn()">+Add New Column</button>
+      <button (click)="addColumn()" class="moreColumns">+Add New Column</button>
     </div>
 
     <button type="submit">
-      {{ board ? "Save Changes" : "Create New Board" }}
+      {{ boardData ? "Save Changes" : "Create New Board" }}
     </button>
   </form>
 </div>

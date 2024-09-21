@@ -64,6 +64,13 @@ export class HeaderComponent {
     });
   }
 
+  openEditForm() {
+    this.dialog.open(BoardFormComponent, {
+      width: '480px',
+      data: this.board,
+    });
+  }
+
   openDeleteModal() {
     this.dialog.open(ConfirmationModalComponent, {
       width: '480px',
