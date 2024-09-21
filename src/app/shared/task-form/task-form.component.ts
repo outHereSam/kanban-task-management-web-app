@@ -25,7 +25,6 @@ import { addTask, updateTask } from '../../state/boards/actions/boards.actions';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,

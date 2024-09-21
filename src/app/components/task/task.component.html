@@ -1,7 +1,6 @@
-<div class="task">
+<div class="task" (click)="openDialog()">
   <h5 class="task-title">{{ task.title }}</h5>
   <p class="subtask-count">
-    {{ completedSubtaskCount }} of {{ task.subtasks.length }} subtasks
+    {{ completedSubtaskCount$ | async }} of {{ task.subtasks.length }} subtasks
   </p>
-  <!-- <app-task-detail-modal [task]="task" /> -->
 </div>

@@ -8,10 +8,16 @@
     padding: 24px 16px
     border-radius: 8px
     box-shadow: var(--card-shadow)
+    cursor: pointer
+
+    &:hover > .task-title
+        color: $clr-main-purple
+        
 
     .task-title
         font-size: get-font-size('header', 'medium')
         color: var(--text-main)
+        transition: 0.2s ease-in
 
     .subtask-count
         font-size: get-font-size('body', 'medium')

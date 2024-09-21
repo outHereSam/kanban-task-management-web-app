@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
+  MatDialog,
   MatDialogClose,
   MatDialogContent,
   MatDialogModule,
@@ -35,6 +36,8 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrl: './sidebar.component.sass',
 })
 export class SidebarComponent {
+  dialog = inject(MatDialog);
+
   boards$: Observable<Board[]> | undefined;
   isFormOpened: boolean = false;
   activeBoard$: Observable<Board | undefined>;
@@ -46,5 +49,11 @@ export class SidebarComponent {
 
   toggleFormModal() {
     this.isFormOpened = !this.isFormOpened;
+  }
+
+  openCreateForm() {
+    this.dialog.open(BoardFormComponent, {
+      width: '480px',
+    });
   }
 }

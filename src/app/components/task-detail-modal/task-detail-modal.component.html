@@ -1,25 +1,34 @@
 <div class="task-modal">
-  <h4 class="task-name">{{ task.title }}</h4>
+  <h4 class="task-name">{{ taskData.title }}</h4>
 
-  <p class="task-description">{{ task.description }}</p>
+  <p class="task-description">{{ taskData.description }}</p>
 
-  <ul>
-    @for (subTask of task.subtasks; track $index) {
-    <li [id]="task.id">
-      <input
-        (change)="updateSubtask($event)"
-        type="checkbox"
-        [checked]="subTask.isCompleted"
-        [value]="subTask.title"
-      />
-      {{ subTask.title }}
-    </li>
-    }
-  </ul>
+  <div class="subtasks">
+    <h4 class="subtitle">
+      Subtasks ({{ completedSubtaskCount$ | async }} of
+      {{ taskData.subtasks.length }})
+    </h4>
+    <ul>
+      @for (subTask of taskData.subtasks; track $index) {
+      <li
+        [id]="taskData.id"
+        [class]="subTask.isCompleted ? 'checked' : 'subtask'"
+      >
+        <input
+          (change)="updateSubtask($event)"
+          type="checkbox"
+          [checked]="subTask.isCompleted"
+          [value]="subTask.title"
+        />
+        <span>{{ subTask.title }}</span>
+      </li>
+      }
+    </ul>
+  </div>
 
   <select (change)="updateTaskStatus($event)" name="status">
     @for (status of statuses; track $index) {
-    <option [value]="status" [selected]="status === task.status">
+    <option [value]="status" [selected]="status === taskData.status">
       {{ status }}
     </option>
     }
@@ -29,13 +38,5 @@
   <button class="edit" (click)="openEditForm()">Edit Task</button>
 
   <!-- Delete Task -->
-  <button class="delete" (click)="deleteTask(task.id)">Delete Task</button>
-</div>
-
-<!-- Task Form -->
-<div
-  class="edit-modal"
-  [style]="{ display: isEditModalOpened ? 'block' : 'none' }"
->
-  <!-- <app-task-form [task]="task" /> -->
+  <button class="delete" (click)="deleteTask(taskData.id)">Delete Task</button>
 </div>

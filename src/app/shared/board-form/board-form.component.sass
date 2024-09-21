@@ -1,0 +1,64 @@
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
+@use '../../../styles/functions' as *
+
+.board-form
+    padding: 24px
+    background-color: var(--card-bg)
+
+    h3
+        color: var(--text-main)
+        font-size: get-font-size('header', 'large')
+        margin: 0 0 24px 0
+
+    form
+        width: 100%
+        // margin: 24px 0 0 0
+        display: flex
+        flex-direction: column
+        gap: 24px
+
+        label
+            display: block
+            font-size: get-font-size('body', 'medium')
+            color: var(--text-secondary)
+            margin: 0 0 8px 0
+            font-weight: bold
+
+        input
+            color: var(--text-main)
+            width: 100%
+            border: solid 1px $clr-border
+            border-radius: 4px
+            background-color: var(--card-bg)
+            padding: 8px 0 8px 16px
+
+            &:focus
+                outline: solid 1px $clr-main-purple
+
+            &::placeholder
+                color: var(--placeholder)
+                font-size: get-font-size('body', 'large')
+
+        .column
+            display: flex
+            align-items: center
+            gap: 16px
+            margin-bottom: 12px
+
+            .remove
+                display: flex
+                justify-content: center
+                align-items: center
+                border: none
+                background: none
+                appearance: none
+                cursor: pointer
+
+        .moreColumns
+            @include button('modal')
+            background-color: var(--btn-secondary)
+            color: $clr-main-purple
+
+        button[type="submit"]
+            @include button('modal')

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,37 +18,51 @@ import {
   selectNextBoardId,
 } from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
-import { Board } from '../../models/board.model';
+import { Board, Column } from '../../models/board.model';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-board-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+  ],
   templateUrl: './board-form.component.html',
   styleUrl: './board-form.component.sass',
 })
 export class BoardFormComponent {
+  boardData = inject(MAT_DIALOG_DATA);
   boardForm: FormGroup;
   nextId!: number;
   @Input() board: Board | null | undefined;
 
   constructor(private fb: FormBuilder, private store: Store) {
-    this.boardForm = this.fb.group({
-      name: ['', Validators.required],
-      columns: this.fb.array([]),
-    });
+    this.boardForm = this.fb.group({});
     this.store.select(selectNextBoardId).subscribe((id) => (this.nextId = id));
   }
 
   ngOnChanges(simpleChanges: any) {
-    if (simpleChanges.board && this.board) {
+    if (simpleChanges.boardData && this.boardData) {
       this.initForm();
     }
   }
 
+  ngOnInit() {
+    // console.log(this.boardData);
+    this.initForm();
+  }
+
   initializeColumns() {
-    const columns = this.board?.columns || [];
-    const columnFormControls = columns.map((column) =>
+    const columns = this.boardData?.columns || [];
+    const columnFormControls = columns.map((column: Column) =>
       this.fb.control(column.name, Validators.required)
     );
     return columnFormControls;
@@ -56,8 +70,15 @@ export class BoardFormComponent {
 
   initForm() {
     this.boardForm = this.fb.group({
-      name: [this.board?.name || '', Validators.required],
-      columns: this.fb.array(this.initializeColumns()),
+      name: [this.boardData?.name || '', Validators.required],
+      columns: this.fb.array(
+        this.boardData?.columns
+          ? this.initializeColumns()
+          : [
+              this.fb.control('', Validators.required),
+              this.fb.control('', Validators.required),
+            ]
+      ),
     });
   }
 
@@ -77,7 +98,7 @@ export class BoardFormComponent {
     if (this.boardForm.valid) {
       const newColumns = this.columns.value.map(
         (columnName: string, index: number) => {
-          const existingTasks = this.board?.columns[index]?.tasks || [];
+          const existingTasks = this.boardData?.columns[index]?.tasks || [];
           return { name: columnName, tasks: existingTasks };
         }
       );
@@ -88,8 +109,8 @@ export class BoardFormComponent {
         columns: newColumns,
       };
 
-      if (this.board) {
-        newBoard.id = this.board.id;
+      if (this.boardData) {
+        newBoard.id = this.boardData.id;
         this.store.dispatch(updateBoard({ board: newBoard }));
       }
 

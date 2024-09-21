@@ -14,6 +14,15 @@
       </svg>
     </button>
   </div>
+
+  <div class="info-desktop">
+    <div class="logo">
+      <img class="light" src="../../../assets/logo-light.svg" alt="Logo" />
+      <img class="dark" src="../../../assets/logo-dark.svg" alt="Logo" />
+    </div>
+    <h1 class="board-name">{{ board.name }}</h1>
+  </div>
+
   <div class="actions">
     <button class="new-task" (click)="openCreateForm()">
       <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
@@ -22,6 +31,9 @@
           d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"
         />
       </svg>
+    </button>
+    <button class="new-task desktop-new" (click)="openCreateForm()">
+      + Add New Task
     </button>
     <button class="toggle-options" [cdkMenuTriggerFor]="menu">
       <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -34,10 +46,8 @@
     </button>
     <ng-template #menu>
       <div class="options" cdkMenu>
-        <button (click)="toggleFormModal()">Edit Board</button>
-        <button class="delete" (click)="deleteBoard(board.id)">
-          Delete Board
-        </button>
+        <button (click)="openEditForm()">Edit Board</button>
+        <button class="delete" (click)="openDeleteModal()">Delete Board</button>
       </div>
     </ng-template>
   </div>

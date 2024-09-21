@@ -1,12 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, Subscription } from 'rxjs';
 import { Board, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import {
   deleteTask,
@@ -14,26 +14,41 @@ import {
   updateTaskStatus,
 } from '../../state/boards/actions/boards.actions';
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-task-detail-modal',
   standalone: true,
-  imports: [TaskFormComponent, MatDialogModule],
+  imports: [TaskFormComponent, MatDialogModule, AsyncPipe],
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })
 export class TaskDetailModalComponent {
   dialog = inject(MatDialog);
+  taskData = inject(MAT_DIALOG_DATA);
 
   @Input() task!: Task;
   board$: Observable<Board | undefined>;
+  task$: Observable<Task | undefined>;
+  columnName!: string;
   boardId!: number;
   statuses: string[] = [];
   isEditModalOpened: boolean = false;
+  completedSubtaskCount$: Observable<number>;
   private boardSubscription!: Subscription;
 
   constructor(private store: Store) {
     this.board$ = this.store.select(selectBoard);
+    this.task$ = this.store.select(
+      selectTask(this.taskData.id, this.taskData.status)
+    );
+    this.completedSubtaskCount$ = this.task$.pipe(
+      map(
+        (task) =>
+          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
+      ),
+      distinctUntilChanged()
+    );
   }
 
   openCreateForm() {
@@ -45,7 +60,7 @@ export class TaskDetailModalComponent {
   openEditForm() {
     this.dialog.open(TaskFormComponent, {
       width: '480px',
-      data: this.task,
+      data: this.taskData,
     });
   }
 
@@ -57,6 +72,13 @@ export class TaskDetailModalComponent {
         this.statuses = board.columns.map((column) => column.name);
       }
     });
+    this.completedSubtaskCount$ = this.task$.pipe(
+      map(
+        (task) =>
+          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
+      ),
+      distinctUntilChanged()
+    );
   }
 
   updateTaskStatus(event: any) {
@@ -65,9 +87,9 @@ export class TaskDetailModalComponent {
     this.store.dispatch(
       updateTaskStatus({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.status,
         task: {
-          ...this.task,
+          ...this.taskData,
           status: newStatus,
         },
       })
@@ -78,7 +100,7 @@ export class TaskDetailModalComponent {
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
-    const updatedSubtask = this.task.subtasks.map((subtask: Subtask) => {
+    const updatedSubtask = this.taskData.subtasks.map((subtask: Subtask) => {
       if (subtask.title === subtaskTitle) {
         return {
           ...subtask,
@@ -91,9 +113,9 @@ export class TaskDetailModalComponent {
     this.store.dispatch(
       updateSubtask({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.status,
         task: {
-          ...this.task,
+          ...this.taskData,
           subtasks: updatedSubtask,
         },
       })
@@ -104,7 +126,7 @@ export class TaskDetailModalComponent {
     this.store.dispatch(
       deleteTask({
         boardId: this.boardId,
-        columnName: this.task.status,
+        columnName: this.taskData.status,
         taskId: id,
       })
     );

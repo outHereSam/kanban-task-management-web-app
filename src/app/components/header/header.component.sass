@@ -12,10 +12,35 @@ header
     // top: 0
     // width: 100%
     // z-index: 1001
+    border-bottom: solid 1px var(--lines)
 
     .info
         @include flex-row()
         gap: 16px
+
+        @media (min-width: 600px)
+            display: none
+
+    .info-desktop
+        display: none
+
+        .logo
+            padding: 0 32px 0 0
+            border-right: solid 1px var(--lines)
+            .light
+                display: none
+            
+        .board-name
+            font-size: functions.get-font-size('header', 'xl')
+            color: var(--text-main)
+            padding: 0 0 0 32px
+            
+            
+
+        @media (min-width: 600px)
+            display: flex
+            align-items: center
+            // gap: 64px
 
     .menu
         border: none
@@ -43,8 +68,24 @@ header
         .new-task
             display: flex
             justify-content: center
-            align-content: center
+            align-items: center
             @include button('mobile')
+            
+            @media (min-width: 600px)
+                display: none
+
+        .desktop-new
+            display: none
+            @include button('action')
+            border-radius: 24px
+            cursor: pointer
+
+            &:hover
+                background-color: $clr-main-purple-hover
+
+            @media (min-width: 600px)
+                display: block
+
 
 .cdk-menu
     padding: 16px
