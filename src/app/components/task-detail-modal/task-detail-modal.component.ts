@@ -107,6 +107,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
         },
       })
     );
+    this.dialogRef.close();
   }
 
   updateSubtask(event: any) {
