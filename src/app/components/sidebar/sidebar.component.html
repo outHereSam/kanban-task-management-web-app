@@ -14,7 +14,11 @@
             fill="#828FA3"
           />
         </svg>
-        <a routerLinkActive="activeboard" [routerLink]="['/board', board.id]">
+        <a
+          [mat-dialog-close]="true"
+          routerLinkActive="activeboard"
+          [routerLink]="['/board', board.id]"
+        >
           {{ board.name }}
         </a>
       </li>
