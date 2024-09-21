@@ -7,7 +7,9 @@
   </p>
 
   <div class="buttons">
-    <button mat-dialog-close>Cancel</button>
-    <button [mat-dialog-close]="true" (click)="deleteBoard()">Delete</button>
+    <button [mat-dialog-close]="true" (click)="deleteBoard()" class="delete">
+      Delete
+    </button>
+    <button mat-dialog-close class="cancel">Cancel</button>
   </div>
 </div>

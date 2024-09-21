@@ -1,0 +1,42 @@
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
+@use '../../../styles/functions' as *
+
+.modal
+    padding: 24px
+
+    h3
+        color: $clr-red
+        font-size: get-font-size('header', 'large')
+        margin: 0 0 24px 0
+
+    p
+        color: var(--text-secondary)
+        font-size: get-font-size('body', 'large')
+        margin: 0 0 24px 0
+        line-height: 23px
+
+    .buttons
+        display: flex
+        flex-direction: column
+        gap: 16px
+
+        .delete
+            border: none
+            background: $clr-red
+            appearance: none
+            cursor: pointer
+            padding: 8px 0
+            border-radius: 20px
+            color: $clr-white
+            font-weight: bold
+
+        .cancel
+            border: none
+            background: var(--btn-secondary)
+            appearance: none
+            cursor: pointer
+            padding: 8px 0
+            border-radius: 20px
+            color: $clr-main-purple
+            font-weight: bold
