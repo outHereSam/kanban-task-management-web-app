@@ -56,7 +56,7 @@ export class BoardFormComponent {
   }
 
   ngOnInit() {
-    console.log(this.boardData);
+    // console.log(this.boardData);
     this.initForm();
   }
 

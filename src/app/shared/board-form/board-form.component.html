@@ -24,7 +24,7 @@
       <button (click)="addColumn()" class="moreColumns">+Add New Column</button>
     </div>
 
-    <button type="submit">
+    <button [mat-dialog-close]="true" type="submit">
       {{ boardData ? "Save Changes" : "Create New Board" }}
     </button>
   </form>
