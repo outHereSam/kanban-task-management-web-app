@@ -16,6 +16,7 @@ import { AsyncPipe } from '@angular/common';
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { ConfirmationModalComponent } from '../../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -60,6 +61,13 @@ export class HeaderComponent {
   openCreateForm() {
     this.dialog.open(TaskFormComponent, {
       width: '480px',
+    });
+  }
+
+  openDeleteModal() {
+    this.dialog.open(ConfirmationModalComponent, {
+      width: '480px',
+      data: this.board.id,
     });
   }
 

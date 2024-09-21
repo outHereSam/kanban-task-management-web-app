@@ -35,9 +35,7 @@
     <ng-template #menu>
       <div class="options" cdkMenu>
         <button (click)="toggleFormModal()">Edit Board</button>
-        <button class="delete" (click)="deleteBoard(board.id)">
-          Delete Board
-        </button>
+        <button class="delete" (click)="openDeleteModal()">Delete Board</button>
       </div>
     </ng-template>
   </div>
