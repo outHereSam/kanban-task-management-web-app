@@ -112,8 +112,9 @@ export const boardReducer = createReducer(
         // Find the task that needs to be updated within this column
         const updatedTasks = column.tasks.map((existingTask) => {
           if (existingTask.id === task.id) {
+            console.log(task);
             // Replace the task with the updated version (including updated subtasks)
-            return { ...task };
+            return { ...existingTask, ...task };
           }
           return existingTask;
         });
