@@ -42,8 +42,8 @@ export const updateTask = createAction(
 );
 
 export const updateSubtask = createAction(
-  '[Subtask] Update Subtask',
-  props<{ boardId: number; columnName: string; task: Task }>()
+  '[Task] Update Subtask',
+  props<{ boardId: number; task: Task }>()
 );
 
 export const deleteTask = createAction(

@@ -1,12 +1,22 @@
-import { Component, inject, Input } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import {
+  distinctUntilChanged,
+  map,
+  Observable,
+  Subscription,
+  combineLatest,
+} from 'rxjs';
 import { Board, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
   selectTask,
 } from '../../state/boards/selectors/boards.selectors';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import {
   deleteTask,
@@ -23,25 +33,34 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })
-export class TaskDetailModalComponent {
+export class TaskDetailModalComponent implements OnInit, OnDestroy {
+  private dialogRef = inject(MatDialogRef<TaskDetailModalComponent>);
+  private taskData: Task & { boardId: number } = inject(MAT_DIALOG_DATA);
   dialog = inject(MatDialog);
-  taskData = inject(MAT_DIALOG_DATA);
 
-  @Input() task!: Task;
-  board$: Observable<Board | undefined>;
-  task$: Observable<Task | undefined>;
-  columnName!: string;
-  boardId!: number;
+  board$!: Observable<Board | undefined>;
+  task$!: Observable<Task | undefined>;
+  completedSubtaskCount$!: Observable<number>;
   statuses: string[] = [];
-  isEditModalOpened: boolean = false;
-  completedSubtaskCount$: Observable<number>;
-  private boardSubscription!: Subscription;
 
-  constructor(private store: Store) {
-    this.board$ = this.store.select(selectBoard);
+  private subscription: Subscription = new Subscription();
+
+  constructor(private store: Store) {}
+
+  ngOnInit() {
     this.task$ = this.store.select(
       selectTask(this.taskData.id, this.taskData.status)
     );
+
+    this.board$ = this.store.select(selectBoard);
+
+    this.board$.subscribe((board) => {
+      this.statuses = [];
+      if (board) {
+        this.statuses = board.columns.map((column) => column.name);
+      }
+    });
+
     this.completedSubtaskCount$ = this.task$.pipe(
       map(
         (task) =>
@@ -49,44 +68,38 @@ export class TaskDetailModalComponent {
       ),
       distinctUntilChanged()
     );
-  }
 
-  openCreateForm() {
-    this.dialog.open(TaskFormComponent, {
-      width: '480px',
-    });
+    this.subscription.add(
+      this.task$.subscribe((updatedTask) => {
+        if (updatedTask) {
+          // console.log('Task updated:', updatedTask);
+          this.taskData = { ...updatedTask, boardId: this.taskData.boardId };
+        }
+      })
+    );
   }
 
   openEditForm() {
-    this.dialog.open(TaskFormComponent, {
+    const dialogRef = this.dialog.open(TaskFormComponent, {
       width: '480px',
       data: this.taskData,
     });
-  }
 
-  ngOnInit() {
-    this.boardSubscription = this.board$.subscribe((board) => {
-      this.statuses = [];
-      if (board) {
-        this.boardId = board.id;
-        this.statuses = board.columns.map((column) => column.name);
-      }
-    });
-    this.completedSubtaskCount$ = this.task$.pipe(
-      map(
-        (task) =>
-          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
-      ),
-      distinctUntilChanged()
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // Handle the result if needed
+          // console.log(result);
+        }
+      })
     );
   }
 
   updateTaskStatus(event: any) {
     const newStatus = event.target.value;
-
     this.store.dispatch(
       updateTaskStatus({
-        boardId: this.boardId,
+        boardId: this.taskData.boardId,
         columnName: this.taskData.status,
         task: {
           ...this.taskData,
@@ -97,48 +110,45 @@ export class TaskDetailModalComponent {
   }
 
   updateSubtask(event: any) {
+    // console.log('Updating subtask:', event);
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
-    const updatedSubtask = this.taskData.subtasks.map((subtask: Subtask) => {
-      if (subtask.title === subtaskTitle) {
-        return {
-          ...subtask,
-          isCompleted: isCompleted,
-        };
-      }
-      return subtask;
-    });
+    const updatedSubtasks = this.taskData.subtasks.map((subtask: Subtask) =>
+      subtask.title === subtaskTitle ? { ...subtask, isCompleted } : subtask
+    );
+
+    // console.log('Dispatching updateSubtask action:', {
+    //   boardId: this.taskData.boardId,
+    //   task: {
+    //     ...this.taskData,
+    //     subtasks: updatedSubtasks,
+    //   },
+    // });
 
     this.store.dispatch(
       updateSubtask({
-        boardId: this.boardId,
-        columnName: this.taskData.status,
+        boardId: this.taskData.boardId,
         task: {
           ...this.taskData,
-          subtasks: updatedSubtask,
+          subtasks: updatedSubtasks,
         },
       })
     );
   }
 
-  deleteTask(id: number) {
+  deleteTask() {
     this.store.dispatch(
       deleteTask({
-        boardId: this.boardId,
+        boardId: this.taskData.boardId,
         columnName: this.taskData.status,
-        taskId: id,
+        taskId: this.taskData.id,
       })
     );
-  }
-
-  toggleEditTask() {
-    this.isEditModalOpened = !this.isEditModalOpened;
+    this.dialogRef.close();
   }
 
   ngOnDestroy() {
-    if (this.boardSubscription) {
-      this.boardSubscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }
