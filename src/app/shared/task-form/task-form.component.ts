@@ -10,7 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
 import { Board, Column, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
@@ -19,6 +23,7 @@ import {
   selectStatusById,
 } from '../../state/boards/selectors/boards.selectors';
 import { addTask, updateTask } from '../../state/boards/actions/boards.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -43,7 +48,13 @@ export class TaskFormComponent {
   currentBoardId!: number;
   private boardSubscription!: Subscription;
 
-  constructor(private fb: FormBuilder, private store: Store) {
+  private dialogRef = inject(MatDialogRef<TaskFormComponent>);
+
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private router: Router
+  ) {
     this.taskForm = this.fb.group({});
     this.board$ = this.store.select(selectBoard);
   }
@@ -112,7 +123,7 @@ export class TaskFormComponent {
         },
       };
 
-      if (this.task) {
+      if (this.taskData) {
         // Update task if this form is editing
         newTask.task.id = this.taskData.id;
         this.store.dispatch(updateTask({ ...newTask }));
@@ -120,6 +131,8 @@ export class TaskFormComponent {
         this.store.dispatch(addTask(newTask));
         this.taskForm.reset();
       }
+
+      this.dialogRef.close();
     } else {
       console.log(this.taskForm.errors);
     }

@@ -32,6 +32,7 @@
             border: solid 1px $clr-border
             border-radius: 4px
             background-color: var(--card-bg)
+            color: var(--text-main)
 
             &:focus
                 outline: solid 1px $clr-main-purple
@@ -80,8 +81,13 @@
             border-radius: 4px
             background-color: var(--card-bg)
 
+            mat-select
+                color: var(--text-main)
+            
+
         .mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before
             display: none
+            
             
         .mat-option
             font-size: get-font-size('body', 'large')
