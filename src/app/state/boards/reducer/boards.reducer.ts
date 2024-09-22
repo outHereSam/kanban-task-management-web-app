@@ -26,9 +26,49 @@ export const boardReducer = createReducer(
     error,
   })),
   on(addBoard, (state, { board }) => boardAdapter.addOne(board, state)),
-  on(updateBoard, (state, { board }) =>
-    boardAdapter.updateOne({ id: board.id, changes: board }, state)
-  ),
+  on(updateBoard, (state, { board }) => {
+    const existingBoard = state.entities[board.id];
+
+    if (!existingBoard) return state;
+
+    // Merge updated board data into the existing board
+    const updatedColumns = (board.columns || existingBoard.columns).map(
+      (updatedColumn) => {
+        // Find the current column by matching its name (since Column has no id)
+        const currentColumn = existingBoard.columns.find(
+          (col) => col.name === updatedColumn.name
+        );
+
+        if (currentColumn && currentColumn.name !== updatedColumn.name) {
+          // Column name has changed, update task statuses accordingly
+          const updatedTasks = updatedColumn.tasks.map((task) => ({
+            ...task,
+            status: updatedColumn.name, // Update task status to match the new column name
+          }));
+
+          return {
+            ...updatedColumn,
+            tasks: updatedTasks, // Return updated column with modified tasks
+          };
+        }
+
+        return updatedColumn;
+      }
+    );
+
+    const updatedBoard = {
+      ...existingBoard,
+      ...board, // Merge any other updated fields (like board name, etc.)
+      columns: updatedColumns, // Override columns with updated ones
+    };
+
+    // Update the board in the state
+    return boardAdapter.updateOne(
+      { id: board.id, changes: updatedBoard },
+      state
+    );
+  }),
+
   on(deleteBoard, (state, { id }) => boardAdapter.removeOne(id, state)),
 
   // Add Task
