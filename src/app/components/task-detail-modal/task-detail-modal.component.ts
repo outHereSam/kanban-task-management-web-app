@@ -25,11 +25,18 @@ import {
 } from '../../state/boards/actions/boards.actions';
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 import { AsyncPipe } from '@angular/common';
+import { CdkMenuTrigger, CdkMenu } from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-task-detail-modal',
   standalone: true,
-  imports: [TaskFormComponent, MatDialogModule, AsyncPipe],
+  imports: [
+    TaskFormComponent,
+    MatDialogModule,
+    AsyncPipe,
+    CdkMenuTrigger,
+    CdkMenu,
+  ],
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })

@@ -6,10 +6,20 @@
     padding: 24px
     background-color: var(--card-bg)
 
+    .info
+        @include flex-row()
+        align-items: center
+
     .task-name
         font-size: get-font-size('header', 'large')
         color: var(--text-main)
         margin: 0 0 24px 0
+
+    .toggle-options
+        outline: none
+        border: none
+        background: none
+        cursor: pointer
 
     .task-description
         font-size: get-font-size('body', 'large')
@@ -50,5 +60,22 @@
                     color: var(--text-secondary)
                     
             
-            
-            
+.cdk-menu
+    padding: 16px
+    background-color: var(--card-bg)
+    display: flex
+    flex-direction: column
+    gap: 16px
+    margin: 15px 0 0 0
+    border-radius: 8px
+    box-shadow: var(--card-shadow)
+
+    button
+        background: none
+        appearance: none
+        border: none
+        color: var(--text-secondary)
+        font-size: get-font-size('body', 'large')
+
+    .delete
+        color: $clr-red
