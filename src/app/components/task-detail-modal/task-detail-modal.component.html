@@ -1,7 +1,18 @@
 <div class="task-modal">
   @if (task$ | async; as task) {
 
-  <h4 class="task-name">{{ task.title }}</h4>
+  <div class="info">
+    <h4 class="task-name">{{ task.title }}</h4>
+    <button class="toggle-options" [cdkMenuTriggerFor]="menu">
+      <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#828FA3" fill-rule="evenodd">
+          <circle cx="2.308" cy="2.308" r="2.308" />
+          <circle cx="2.308" cy="10" r="2.308" />
+          <circle cx="2.308" cy="17.692" r="2.308" />
+        </g>
+      </svg>
+    </button>
+  </div>
 
   <p class="task-description">{{ task.description }}</p>
 
@@ -33,10 +44,11 @@
     }
   </select>
 
-  <!-- Edit Task -->
-  <button class="edit" (click)="openEditForm()">Edit Task</button>
-
-  <!-- Delete Task -->
-  <button class="delete" (click)="deleteTask()">Delete Task</button>
+  <ng-template #menu>
+    <div class="options" cdkMenu>
+      <button class="edit" (click)="openEditForm()">Edit Task</button>
+      <button class="delete" (click)="deleteTask()">Delete Task</button>
+    </div>
+  </ng-template>
   }
 </div>

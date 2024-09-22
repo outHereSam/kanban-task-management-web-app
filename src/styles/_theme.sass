@@ -7,7 +7,16 @@ $light-mode: (background: $clr-bg-light, text-main: $clr-text-main, btn-secondar
 :root 
   @each $key, $value in $light-mode
     --#{$key}: #{$value}
+
   
 [data-theme = "dark"]
   @each $key, $value in $dark-mode
     --#{$key}: #{$value}
+
+  .dark
+    display: none
+
+  
+[data-theme = "light"]
+  .light
+    display: none

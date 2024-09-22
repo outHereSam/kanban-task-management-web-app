@@ -13,6 +13,7 @@ header
     // width: 100%
     // z-index: 1001
     border-bottom: solid 1px var(--lines)
+    transition: 0.2s ease-in
 
     .info
         @include flex-row()
@@ -28,7 +29,7 @@ header
             padding: 0 32px 0 0
             border-right: solid 1px var(--lines)
             .light
-                display: none
+                // display: none
             
         .board-name
             font-size: functions.get-font-size('header', 'xl')

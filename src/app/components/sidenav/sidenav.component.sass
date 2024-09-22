@@ -1,0 +1,55 @@
+@use '../../../styles/variables' as *
+@use '../../../styles/mixins' as *
+@use '../../../styles/functions' as *
+
+.sidenav
+    width: 300px
+    background: var(--card-bg)
+    height: 100vh
+    padding: 32px 0
+    transition: 0.2s ease-in-out
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    border-right: solid 1px var(--lines)
+
+    .bottom
+        padding: 0 32px 0 0
+
+    .info-desktop
+        // display: none
+
+        .logo
+            // width: 100%
+            padding: 0 32px 0 34px
+            margin: 0 0 54px 0
+            // border-right: solid 1px var(--lines)
+
+    .hide
+        margin: 8px 0 0 0
+        border: none
+        background: none
+        display: flex
+        align-items: center
+        gap: 15px
+        padding: 15px 0 15px 34px
+        cursor: pointer
+        font-size: get-font-size('header', 'medium')
+        color: var(--text-secondary)
+        font-weight: bold
+
+.show
+    position: absolute
+    left: 0
+    bottom: 32px
+    border: none
+    background: $clr-main-purple
+    // padding: 20px 22px
+    width: 56px
+    height: 48px
+    border-top-right-radius: 100px
+    border-bottom-right-radius: 100px
+    cursor: pointer
+
+    &:hover
+        background-color: $clr-main-purple-hover
