@@ -8,11 +8,17 @@ import {
 import { AsyncPipe } from '@angular/common';
 import { BoardContentComponent } from '../../components/board-content/board-content.component';
 import { HeaderComponent } from '../../components/header/header.component';
+import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-board-detail',
   standalone: true,
-  imports: [AsyncPipe, BoardContentComponent, HeaderComponent],
+  imports: [
+    AsyncPipe,
+    BoardContentComponent,
+    HeaderComponent,
+    SidenavComponent,
+  ],
   templateUrl: './board-detail.component.html',
   styleUrl: './board-detail.component.sass',
 })
