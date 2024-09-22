@@ -9,4 +9,14 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.sass',
 })
-export class SidenavComponent {}
+export class SidenavComponent {
+  isSidebarOpened = true;
+
+  hideSidebar() {
+    this.isSidebarOpened = false;
+  }
+
+  showSidebar() {
+    this.isSidebarOpened = true;
+  }
+}

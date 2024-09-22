@@ -7,7 +7,7 @@
     background: var(--card-bg)
     height: 100vh
     padding: 32px 0
-    transition: 0.2s ease-in
+    transition: 0.2s ease-in-out
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -37,3 +37,19 @@
         font-size: get-font-size('header', 'medium')
         color: var(--text-secondary)
         font-weight: bold
+
+.show
+    position: absolute
+    left: 0
+    bottom: 32px
+    border: none
+    background: $clr-main-purple
+    // padding: 20px 22px
+    width: 56px
+    height: 48px
+    border-top-right-radius: 100px
+    border-bottom-right-radius: 100px
+    cursor: pointer
+
+    &:hover
+        background-color: $clr-main-purple-hover
