@@ -13,7 +13,7 @@
     .task-name
         font-size: get-font-size('header', 'large')
         color: var(--text-main)
-        margin: 0 0 24px 0
+        // margin: 0 0 24px 0
 
     .toggle-options
         outline: none
@@ -25,7 +25,7 @@
         font-size: get-font-size('body', 'large')
         color: var(--text-secondary)
         line-height: 23px
-        margin: 0 0 24px 0
+        margin: 24px 0
 
     .subtasks
         margin: 0 0 24px 0
@@ -58,6 +58,19 @@
                 &:checked + span
                     text-decoration: line-through
                     color: var(--text-secondary)
+
+    select
+        width: 100%
+        padding: 8px 16px
+        border: solid 1px var(--lines)
+        // outline: solid 1px $clr-main-purple
+        appearance: none
+        border-radius: 4px
+
+        &:focus
+            outline: solid 1px $clr-main-purple
+
+
                     
             
 .cdk-menu

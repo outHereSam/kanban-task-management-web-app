@@ -26,6 +26,9 @@ import {
 import { TaskFormComponent } from '../../shared/task-form/task-form.component';
 import { AsyncPipe } from '@angular/common';
 import { CdkMenuTrigger, CdkMenu } from '@angular/cdk/menu';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-task-detail-modal',
@@ -36,6 +39,9 @@ import { CdkMenuTrigger, CdkMenu } from '@angular/cdk/menu';
     AsyncPipe,
     CdkMenuTrigger,
     CdkMenu,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
