@@ -3,7 +3,6 @@
 @use '../../../styles/functions' as *
 
 .page
-    border: solid 1px pink
     height: 100vh
     // display: flex
     // flex-direction: row
@@ -16,7 +15,6 @@
 
     .content
         width: 100%
-        // overflow: scroll
 
     .show
         position: absolute
@@ -34,3 +32,6 @@
 
         &:hover
             background-color: $clr-main-purple-hover
+
+        @media (max-width: 600px)
+            display: none
