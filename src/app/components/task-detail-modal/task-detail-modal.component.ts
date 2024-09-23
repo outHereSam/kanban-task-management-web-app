@@ -63,12 +63,18 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.taskData);
+    // console.log(this.taskData);
     this.board$.subscribe((board) => {
       if (board) {
         this.statuses = [];
         this.boardId = board.id;
         this.statuses = board.columns.map((column) => column.name);
+      }
+    });
+
+    this.taskData.subtasks.forEach((subtask: Subtask) => {
+      if (subtask.isCompleted) {
+        this.completedSubtaskCount++;
       }
     });
   }
@@ -105,20 +111,27 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
   }
 
   updateSubtask(event: any) {
-    // console.log('Updating subtask:', event);
+    console.log(this.taskData);
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
-    const updatedSubtasks = this.taskData.subtasks.map((subtask: Subtask) =>
-      subtask.title === subtaskTitle ? { ...subtask, isCompleted } : subtask
-    );
+    const updatedSubtask = this.taskData.subtasks.map((subtask: Subtask) => {
+      if (subtask.title === subtaskTitle) {
+        return {
+          ...subtask,
+          isCompleted: isCompleted,
+        };
+      }
+      return subtask;
+    });
 
     this.store.dispatch(
       updateSubtask({
         boardId: this.boardId,
+        // columnName: this.taskData.status,
         task: {
           ...this.taskData,
-          subtasks: updatedSubtasks,
+          subtasks: updatedSubtask,
         },
       })
     );

@@ -1,6 +1,8 @@
-<div class="task" (click)="openDialog()">
+@if(task$ | async; as task) {
+<div class="task" (click)="openDialog(task)">
   <h5 class="task-title">{{ task.title }}</h5>
   <p class="subtask-count">
-    {{ completedSubtaskCount }} of {{ task.subtasks.length }} subtasks
+    {{ getCompletedSubtaskCount(task) }} of {{ task.subtasks.length }} subtasks
   </p>
 </div>
+}

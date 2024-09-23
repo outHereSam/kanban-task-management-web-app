@@ -11,7 +11,7 @@
     <ul class="tasks">
       @for (task of column.tasks; track $index) {
       <li>
-        <app-task [task]="task" />
+        <app-task [boardId]="board.id" [columnName]="column.name" />
       </li>
       }
     </ul>

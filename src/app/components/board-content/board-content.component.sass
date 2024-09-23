@@ -3,7 +3,9 @@
 @use '../../../styles/variables' as *
 
 .columns
-    height: 100vh
+    height: 100%
+    // max-height: 80vh
+    // max-width: 100vw
     // border: solid 1px pink
     display: flex
     gap: 24px
@@ -12,6 +14,7 @@
     transition: 0.2s ease-in
 
     .column
+        max-height: 100%
         width: 280px
         flex-shrink: 0
         .column-name
