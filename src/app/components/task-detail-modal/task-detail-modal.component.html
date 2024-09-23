@@ -1,8 +1,6 @@
 <div class="task-modal">
-  @if (task$ | async; as task) {
-
   <div class="info">
-    <h4 class="task-name">{{ task.title }}</h4>
+    <h4 class="task-name">{{ taskData.title }}</h4>
     <button class="toggle-options" [cdkMenuTriggerFor]="menu">
       <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
         <g fill="#828FA3" fill-rule="evenodd">
@@ -14,16 +12,18 @@
     </button>
   </div>
 
-  <p class="task-description">{{ task.description }}</p>
+  <p class="task-description">{{ taskData.description }}</p>
 
   <div class="subtasks">
     <h4 class="subtitle">
-      Subtasks ({{ completedSubtaskCount$ | async }} of
-      {{ task.subtasks.length }})
+      Subtasks ({{ completedSubtaskCount }} of {{ taskData.subtasks.length }})
     </h4>
     <ul>
-      @for (subtask of task.subtasks; track $index) {
-      <li [id]="task.id" [class]="subtask.isCompleted ? 'checked' : 'subtask'">
+      @for (subtask of taskData.subtasks; track $index) {
+      <li
+        [id]="taskData.id"
+        [class]="subtask.isCompleted ? 'checked' : 'subtask'"
+      >
         <input
           type="checkbox"
           [checked]="subtask.isCompleted"
@@ -38,7 +38,7 @@
 
   <select (change)="updateTaskStatus($event)" name="status">
     @for (status of statuses; track $index) {
-    <option [value]="status" [selected]="status === task.status">
+    <option [value]="status" [selected]="status === taskData.status">
       {{ status }}
     </option>
     }
@@ -50,5 +50,4 @@
       <button class="delete" (click)="deleteTask()">Delete Task</button>
     </div>
   </ng-template>
-  }
 </div>

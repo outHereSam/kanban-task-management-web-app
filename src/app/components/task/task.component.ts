@@ -4,7 +4,10 @@ import { Subtask, Task } from '../../models/board.model';
 import { TaskDetailModalComponent } from '../task-detail-modal/task-detail-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { selectTask } from '../../state/boards/selectors/boards.selectors';
+import {
+  selectTask,
+  selectTaskById,
+} from '../../state/boards/selectors/boards.selectors';
 import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { updateSubtask } from '../../state/boards/actions/boards.actions';
@@ -17,32 +20,35 @@ import { updateSubtask } from '../../state/boards/actions/boards.actions';
   styleUrl: './task.component.sass',
 })
 export class TaskComponent {
-  @Input() taskId!: number;
-  @Input() status!: string;
-  @Input() boardId!: number;
+  @Input() task!: Task;
 
   task$!: Observable<Task | undefined>;
-  completedSubtaskCount$!: Observable<number>;
+  // completedSubtaskCount$!: Observable<number>;
 
-  // completedSubtaskCount: number = 0;
+  completedSubtaskCount: number = 0;
 
   constructor(private dialog: MatDialog, private store: Store) {}
 
   ngOnInit() {
-    this.task$ = this.store.select(selectTask(this.taskId, this.status));
-    this.completedSubtaskCount$ = this.task$.pipe(
-      map(
-        (task) =>
-          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
-      ),
-      distinctUntilChanged()
-    );
+    this.task$ = this.store.select(selectTask(this.task.id, this.task.status));
+    // console.log(this.task);
   }
 
-  openDialog(task: Task) {
-    this.dialog.open(TaskDetailModalComponent, {
+  getCompletedSubtaskCount(task: Task): number {
+    return task.subtasks.filter((subtask) => subtask.isCompleted).length;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(TaskDetailModalComponent, {
       width: '480px',
-      data: { ...task, boardId: this.boardId },
+      data: this.task,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // Force change detection
+      this.task$ = this.store.select(
+        selectTask(this.task.id, this.task.status)
+      );
     });
   }
 }

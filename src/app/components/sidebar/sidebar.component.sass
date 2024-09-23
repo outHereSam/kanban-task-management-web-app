@@ -21,27 +21,33 @@
     .boards
         margin: 0 0 16px 0
 
+    .board
+        text-decoration: none
+        color: var(--text-secondary)
+        font-size: get-font-size('header', 'medium')
+        font-weight: bold
+        cursor: pointer
+        &:hover
+            color: $clr-main-purple
+            background-color: var(--btn-secondary)
+
+    .activeboard
+        color: $clr-white
+        font-weight: bold
+
     .board, .active, .createBoard
         // border: solid 1px pink
         padding:  16px 70px 16px 24px
         display: flex
         align-items: center
         gap: 12px
-
-        a
-            text-decoration: none
-            color: var(--text-secondary)
-            font-size: get-font-size('header', 'medium')
-            font-weight: bold
-
-
-        .activeboard
-            color: $clr-white
+        border-top-right-radius: 100px
+        border-bottom-right-radius: 100px
+            
+        
 
     .active
         background-color: $clr-main-purple
-        border-top-right-radius: 100px
-        border-bottom-right-radius: 100px
 
         svg path
             fill: $clr-white
@@ -55,6 +61,7 @@
         font-weight: bold
         border: none
         background: none
+        cursor: pointer
 
         svg path
             fill: $clr-main-purple

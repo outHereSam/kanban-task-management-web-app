@@ -3,9 +3,35 @@
 @use '../../../styles/functions' as *
 
 .page
-    display: flex
-    flex-direction: row
+    height: 100vh
+    // display: flex
+    // flex-direction: row
+
+    .container 
+        height: 100%
+
+    .drawer-content
+        height: 100%
 
     .content
         width: 100%
-        // overflow: scroll
+
+    .show
+        position: absolute
+        left: 0
+        bottom: 32px
+        z-index: 999
+        border: none
+        background: $clr-main-purple
+        // padding: 20px 22px
+        width: 56px
+        height: 48px
+        border-top-right-radius: 100px
+        border-bottom-right-radius: 100px
+        cursor: pointer
+
+        &:hover
+            background-color: $clr-main-purple-hover
+
+        @media (max-width: 600px)
+            display: none

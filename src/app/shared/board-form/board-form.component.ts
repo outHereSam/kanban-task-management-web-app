@@ -19,7 +19,11 @@ import {
 } from '../../state/boards/selectors/boards.selectors';
 import { map, Observable } from 'rxjs';
 import { Board, Column } from '../../models/board.model';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -39,6 +43,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './board-form.component.sass',
 })
 export class BoardFormComponent {
+  private dialogRef = inject(MatDialogRef<BoardFormComponent>);
   boardData = inject(MAT_DIALOG_DATA);
   boardForm: FormGroup;
   nextId!: number;
@@ -116,6 +121,7 @@ export class BoardFormComponent {
 
       this.store.dispatch(addBoard({ board: newBoard }));
       this.boardForm.get('name')?.reset();
+      this.dialogRef.close();
     }
   }
 }

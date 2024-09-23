@@ -52,3 +52,12 @@ export const selectTask = (taskId: number, columnName: string) =>
     const column = board?.columns.find((c) => c.name === columnName);
     return column?.tasks.find((t) => t.id === taskId);
   });
+
+export const selectTaskById = (boardId: number, taskId: number) =>
+  createSelector(selectAllBoards, (boards) => {
+    const board = boards[boardId];
+    if (!board) return undefined;
+    return board.columns
+      .flatMap((column) => column.tasks)
+      .find((task) => task.id === taskId);
+  });
