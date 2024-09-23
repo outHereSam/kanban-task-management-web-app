@@ -17,32 +17,28 @@ import { updateSubtask } from '../../state/boards/actions/boards.actions';
   styleUrl: './task.component.sass',
 })
 export class TaskComponent {
-  @Input() taskId!: number;
-  @Input() status!: string;
-  @Input() boardId!: number;
+  @Input() task!: Task;
 
-  task$!: Observable<Task | undefined>;
-  completedSubtaskCount$!: Observable<number>;
+  // task$!: Observable<Task | undefined>;
+  // completedSubtaskCount$!: Observable<number>;
 
-  // completedSubtaskCount: number = 0;
+  completedSubtaskCount: number = 0;
 
   constructor(private dialog: MatDialog, private store: Store) {}
 
   ngOnInit() {
-    this.task$ = this.store.select(selectTask(this.taskId, this.status));
-    this.completedSubtaskCount$ = this.task$.pipe(
-      map(
-        (task) =>
-          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
-      ),
-      distinctUntilChanged()
-    );
+    // console.log(this.task);
+    this.task.subtasks.forEach((subtask) => {
+      if (subtask.isCompleted) {
+        this.completedSubtaskCount++;
+      }
+    });
   }
 
-  openDialog(task: Task) {
+  openDialog() {
     this.dialog.open(TaskDetailModalComponent, {
       width: '480px',
-      data: { ...task, boardId: this.boardId },
+      data: this.task,
     });
   }
 }

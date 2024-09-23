@@ -6,7 +6,7 @@ import {
   Subscription,
   combineLatest,
 } from 'rxjs';
-import { Board, Subtask, Task } from '../../models/board.model';
+import { Board, Column, Subtask, Task } from '../../models/board.model';
 import { Store } from '@ngrx/store';
 import {
   selectBoard,
@@ -48,48 +48,29 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class TaskDetailModalComponent implements OnInit, OnDestroy {
   private dialogRef = inject(MatDialogRef<TaskDetailModalComponent>);
-  private taskData: Task & { boardId: number } = inject(MAT_DIALOG_DATA);
+  taskData = inject(MAT_DIALOG_DATA);
   dialog = inject(MatDialog);
+  board$: Observable<Board | undefined>;
+  boardId: number = 0;
 
-  board$!: Observable<Board | undefined>;
-  task$!: Observable<Task | undefined>;
-  completedSubtaskCount$!: Observable<number>;
+  completedSubtaskCount: number = 0;
   statuses: string[] = [];
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    this.board$ = this.store.select(selectBoard);
+  }
 
   ngOnInit() {
-    this.task$ = this.store.select(
-      selectTask(this.taskData.id, this.taskData.status)
-    );
-
-    this.board$ = this.store.select(selectBoard);
-
+    console.log(this.taskData);
     this.board$.subscribe((board) => {
-      this.statuses = [];
       if (board) {
+        this.statuses = [];
+        this.boardId = board.id;
         this.statuses = board.columns.map((column) => column.name);
       }
     });
-
-    this.completedSubtaskCount$ = this.task$.pipe(
-      map(
-        (task) =>
-          task?.subtasks?.filter((subtask) => subtask.isCompleted).length ?? 0
-      ),
-      distinctUntilChanged()
-    );
-
-    this.subscription.add(
-      this.task$.subscribe((updatedTask) => {
-        if (updatedTask) {
-          // console.log('Task updated:', updatedTask);
-          this.taskData = { ...updatedTask, boardId: this.taskData.boardId };
-        }
-      })
-    );
   }
 
   openEditForm() {
@@ -112,7 +93,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
     const newStatus = event.target.value;
     this.store.dispatch(
       updateTaskStatus({
-        boardId: this.taskData.boardId,
+        boardId: this.boardId,
         columnName: this.taskData.status,
         task: {
           ...this.taskData,
@@ -132,17 +113,9 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
       subtask.title === subtaskTitle ? { ...subtask, isCompleted } : subtask
     );
 
-    // console.log('Dispatching updateSubtask action:', {
-    //   boardId: this.taskData.boardId,
-    //   task: {
-    //     ...this.taskData,
-    //     subtasks: updatedSubtasks,
-    //   },
-    // });
-
     this.store.dispatch(
       updateSubtask({
-        boardId: this.taskData.boardId,
+        boardId: this.boardId,
         task: {
           ...this.taskData,
           subtasks: updatedSubtasks,
@@ -154,7 +127,7 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
   deleteTask() {
     this.store.dispatch(
       deleteTask({
-        boardId: this.taskData.boardId,
+        boardId: this.boardId,
         columnName: this.taskData.status,
         taskId: this.taskData.id,
       })
