@@ -4,7 +4,10 @@ import { Subtask, Task } from '../../models/board.model';
 import { TaskDetailModalComponent } from '../task-detail-modal/task-detail-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { selectTask } from '../../state/boards/selectors/boards.selectors';
+import {
+  selectTask,
+  selectTaskById,
+} from '../../state/boards/selectors/boards.selectors';
 import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { updateSubtask } from '../../state/boards/actions/boards.actions';
@@ -17,9 +20,7 @@ import { updateSubtask } from '../../state/boards/actions/boards.actions';
   styleUrl: './task.component.sass',
 })
 export class TaskComponent {
-  // @Input() task!: Task;
-  @Input() boardId!: number;
-  @Input() columnName!: string;
+  @Input() task!: Task;
 
   task$!: Observable<Task | undefined>;
   // completedSubtaskCount$!: Observable<number>;
@@ -29,7 +30,7 @@ export class TaskComponent {
   constructor(private dialog: MatDialog, private store: Store) {}
 
   ngOnInit() {
-    this.task$ = this.store.select(selectTask(this.boardId, this.columnName));
+    this.task$ = this.store.select(selectTask(this.task.id, this.task.status));
     // console.log(this.task);
   }
 
@@ -37,10 +38,17 @@ export class TaskComponent {
     return task.subtasks.filter((subtask) => subtask.isCompleted).length;
   }
 
-  openDialog(task: Task) {
-    this.dialog.open(TaskDetailModalComponent, {
+  openDialog() {
+    const dialogRef = this.dialog.open(TaskDetailModalComponent, {
       width: '480px',
-      data: task,
+      data: this.task,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // Force change detection
+      this.task$ = this.store.select(
+        selectTask(this.task.id, this.task.status)
+      );
     });
   }
 }

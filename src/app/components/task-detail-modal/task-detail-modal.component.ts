@@ -46,7 +46,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './task-detail-modal.component.html',
   styleUrl: './task-detail-modal.component.sass',
 })
-export class TaskDetailModalComponent implements OnInit, OnDestroy {
+export class TaskDetailModalComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<TaskDetailModalComponent>);
   taskData = inject(MAT_DIALOG_DATA);
   dialog = inject(MatDialog);
@@ -55,8 +55,6 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
 
   completedSubtaskCount: number = 0;
   statuses: string[] = [];
-
-  private subscription: Subscription = new Subscription();
 
   constructor(private store: Store) {
     this.board$ = this.store.select(selectBoard);
@@ -84,15 +82,6 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
       width: '480px',
       data: this.taskData,
     });
-
-    this.subscription.add(
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // Handle the result if needed
-          // console.log(result);
-        }
-      })
-    );
   }
 
   updateTaskStatus(event: any) {
@@ -137,6 +126,33 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
     );
   }
 
+  // updateSubtask(event: any) {
+  //   const isCompleted = event.target.checked;
+  //   const subtaskTitle = event.target.value;
+
+  //   const updatedSubtask = this.taskData.subtasks.map((subtask: Subtask) => {
+  //     if (subtask.title === subtaskTitle) {
+  //       return {
+  //         ...subtask,
+  //         isCompleted: isCompleted,
+  //       };
+  //     }
+  //     return subtask;
+  //   });
+
+  //   this.store.dispatch(
+  //     updateSubtask({
+  //       boardId: this.boardId,
+  //       // columnName: this.taskData.status,
+  //       task: {
+  //         ...this.taskData,
+  //         subtasks: updatedSubtask,
+  //       },
+  //     })
+  //   );
+  //   console.log()
+  // }
+
   deleteTask() {
     this.store.dispatch(
       deleteTask({
@@ -146,9 +162,5 @@ export class TaskDetailModalComponent implements OnInit, OnDestroy {
       })
     );
     this.dialogRef.close();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
