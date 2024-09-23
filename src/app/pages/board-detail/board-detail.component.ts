@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   selectBoard,
   selectBoardError,
@@ -18,6 +20,8 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component';
     BoardContentComponent,
     HeaderComponent,
     SidenavComponent,
+    MatSidenavModule,
+    MatButtonModule,
   ],
   templateUrl: './board-detail.component.html',
   styleUrl: './board-detail.component.sass',

@@ -6,7 +6,6 @@
     <ul>
       @for(board of boards; track board.id) {
       <li
-        [mat-dialog-close]="true"
         routerLinkActive="activeboard"
         [routerLink]="['/board', board.id]"
         [class]="board.id === (activeBoard$ | async)?.id ? 'active' : 'board'"
