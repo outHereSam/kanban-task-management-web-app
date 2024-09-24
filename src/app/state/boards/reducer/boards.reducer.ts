@@ -12,6 +12,8 @@ import {
   updateTaskStatus,
   updateTask,
   deleteTask,
+  reorderTasks,
+  moveTask,
 } from '../actions/boards.actions';
 
 export const boardReducer = createReducer(
@@ -240,5 +242,68 @@ export const boardReducer = createReducer(
       { id: boardId, changes: updatedBoard },
       state
     );
-  })
+  }),
+  on(
+    reorderTasks,
+    (state, { boardId, columnName, previousIndex, currentIndex }) => {
+      return boardAdapter.updateOne(
+        {
+          id: boardId,
+          changes: {
+            columns: state.entities[boardId]?.columns.map((column) => {
+              if (column.name === columnName) {
+                const newTasks = [...column.tasks];
+                const [movedTask] = newTasks.splice(previousIndex, 1);
+                newTasks.splice(currentIndex, 0, movedTask);
+                return { ...column, tasks: newTasks };
+              }
+              return column;
+            }),
+          },
+        },
+        state
+      );
+    }
+  ),
+  on(
+    moveTask,
+    (
+      state,
+      {
+        boardId,
+        sourceColumnName,
+        destinationColumnName,
+        previousIndex,
+        currentIndex,
+      }
+    ) => {
+      return boardAdapter.updateOne(
+        {
+          id: boardId,
+          changes: {
+            columns: state.entities[boardId]?.columns.map((column) => {
+              if (column.name === sourceColumnName) {
+                const newTasks = [...column.tasks];
+                const [movedTask] = newTasks.splice(previousIndex, 1);
+                return { ...column, tasks: newTasks };
+              }
+              if (column.name === destinationColumnName) {
+                const newTasks = [...column.tasks];
+                newTasks.splice(
+                  currentIndex,
+                  0,
+                  state.entities[boardId]?.columns.find(
+                    (c) => c.name === sourceColumnName
+                  )?.tasks[previousIndex]!
+                );
+                return { ...column, tasks: newTasks };
+              }
+              return column;
+            }),
+          },
+        },
+        state
+      );
+    }
+  )
 );

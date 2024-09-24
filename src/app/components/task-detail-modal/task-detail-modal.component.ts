@@ -29,6 +29,7 @@ import { CdkMenuTrigger, CdkMenu } from '@angular/cdk/menu';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { DeleteTaskModalComponent } from '../delete-task-modal/delete-task-modal.component';
 
 @Component({
   selector: 'app-task-detail-modal',
@@ -100,7 +101,7 @@ export class TaskDetailModalComponent implements OnInit {
   }
 
   updateSubtask(event: any) {
-    console.log(this.taskData);
+    // console.log(this.taskData);
     const isCompleted = event.target.checked;
     const subtaskTitle = event.target.value;
 
@@ -152,6 +153,17 @@ export class TaskDetailModalComponent implements OnInit {
   //   );
   //   console.log()
   // }
+
+  openDeleteTaskModal() {
+    this.dialog.open(DeleteTaskModalComponent, {
+      width: '480px',
+      data: {
+        task: this.taskData,
+        boardId: this.boardId,
+      },
+    });
+    this.dialogRef.close();
+  }
 
   deleteTask() {
     this.store.dispatch(

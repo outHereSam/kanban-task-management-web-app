@@ -14,6 +14,8 @@ import {
   updateTaskStatus,
   updateSubtask,
   deleteTask,
+  moveTask,
+  reorderTasks,
 } from '../actions/boards.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { selectAllBoards } from '../selectors/boards.selectors';
@@ -59,7 +61,9 @@ export class BoardEffects {
           addTask,
           updateTaskStatus,
           deleteTask,
-          updateSubtask
+          updateSubtask,
+          moveTask,
+          reorderTasks
         ),
         mergeMap(() =>
           this.store.pipe(

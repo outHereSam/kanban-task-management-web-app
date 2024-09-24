@@ -6,7 +6,7 @@
     height: 100%
     display: flex
     gap: 24px
-    overflow: scroll 
+    overflow-y: scroll 
     padding: 24px
     transition: 0.2s ease-in
     background-color: var(--background)
@@ -30,6 +30,8 @@
             border-radius: 7.5px
 
     .tasks
+        // border: solid 1px pink
+        height: 100%
         display: flex
         flex-direction: column
         gap: 20px
@@ -53,3 +55,20 @@
 
         &:hover
             color: $clr-main-purple
+
+.cdk-drag-preview
+    box-sizing: border-box
+    border-radius: 4px
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2) 0 8px 10px 1px rgba(0, 0, 0, 0.14) 0 3px 14px 2px rgba(0, 0, 0, 0.12)
+
+.cdk-drag-placeholder 
+    opacity: 0.3
+
+
+.cdk-drag-animating 
+    transform: rotate(25deg)
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+
+.tasks.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder)
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)

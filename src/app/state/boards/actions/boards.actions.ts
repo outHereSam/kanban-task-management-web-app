@@ -50,3 +50,24 @@ export const deleteTask = createAction(
   '[Task] Delete Task',
   props<{ boardId: number; columnName: string; taskId: number }>()
 );
+
+export const reorderTasks = createAction(
+  '[Board] Reorder Tasks',
+  props<{
+    boardId: number;
+    columnName: string;
+    previousIndex: number;
+    currentIndex: number;
+  }>()
+);
+
+export const moveTask = createAction(
+  '[Board] Move Task',
+  props<{
+    boardId: number;
+    sourceColumnName: string;
+    destinationColumnName: string;
+    previousIndex: number;
+    currentIndex: number;
+  }>()
+);
