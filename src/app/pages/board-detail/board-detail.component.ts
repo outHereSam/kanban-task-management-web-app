@@ -30,10 +30,15 @@ export class BoardDetailComponent {
   board$ = this.store.select(selectBoard);
   loading$ = this.store.select(selectBoardLoading);
   error$ = this.store.select(selectBoardError);
+  isSidenavOpen = false;
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     // this.board$.subscribe((board) => console.log(board));
+  }
+
+  onSidenavToggle(isOpen: boolean) {
+    this.isSidenavOpen = isOpen;
   }
 }

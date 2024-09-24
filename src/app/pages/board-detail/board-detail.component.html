@@ -5,11 +5,11 @@
 } @if (!(loading$ | async) && !(error$ | async) && (board$ | async); as board) {
 <div class="page">
   <mat-drawer-container class="container">
-    <mat-drawer #drawer mode="side">
+    <mat-drawer #drawer mode="side" (openedChange)="onSidenavToggle($event)">
       <app-sidenav />
     </mat-drawer>
     <mat-drawer-content class="drawer-content">
-      <app-header [board]="board" />
+      <app-header [board]="board" [isSidenavOpen]="isSidenavOpen" />
       <app-board-content [board]="board" />
       <!-- <div class="content">
       </div> -->

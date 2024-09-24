@@ -36,6 +36,7 @@ import { ConfirmationModalComponent } from '../../shared/confirmation-modal/conf
 })
 export class HeaderComponent {
   // dialog = inject(MatDialog);
+  @Input() isSidenavOpen: boolean = false;
 
   @Input() board!: Board;
   isFormOpened: boolean = false;
