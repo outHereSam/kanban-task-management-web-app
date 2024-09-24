@@ -1,4 +1,4 @@
-<div class="columns">
+<div class="columns" cdkDropListGroup>
   @for (column of board.columns; track $index) {
   <div class="column">
     <h5 class="column-name">
@@ -8,10 +8,15 @@
       ></span
       >{{ column.name }} ({{ column.tasks.length }})
     </h5>
-    <ul class="tasks">
+    <ul
+      class="tasks"
+      cdkDropList
+      [cdkDropListData]="column.tasks"
+      (cdkDropListDropped)="drop($event)"
+    >
       @for (task of column.tasks; track $index) {
       <li>
-        <app-task [task]="task" />
+        <app-task [task]="task" cdkDrag />
       </li>
       }
     </ul>
