@@ -22,6 +22,11 @@
         flex-direction: column
         gap: 16px
 
+        @media (min-width: 600px)
+            width: 100%
+            flex-direction: row
+            justify-content: space-between
+
         .delete
             border: none
             background: $clr-red
@@ -31,8 +36,10 @@
             border-radius: 20px
             color: $clr-white
             font-weight: bold
+            width: 100%
 
         .cancel
+            width: 100%
             border: none
             background: var(--btn-secondary)
             appearance: none
