@@ -1,0 +1,15 @@
+<div class="modal">
+  <h3>Delete this task?</h3>
+
+  <p>
+    Are you sure you want to delete the ‘{{ (task$ | async)?.title }}’ task?
+    This action will remove all columns and tasks and cannot be reversed.
+  </p>
+
+  <div class="buttons">
+    <button [mat-dialog-close]="true" (click)="deleteTask()" class="delete">
+      Delete
+    </button>
+    <button mat-dialog-close class="cancel">Cancel</button>
+  </div>
+</div>

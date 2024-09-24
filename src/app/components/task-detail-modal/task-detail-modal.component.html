@@ -47,7 +47,9 @@
   <ng-template #menu>
     <div class="options" cdkMenu>
       <button class="edit" (click)="openEditForm()">Edit Task</button>
-      <button class="delete" (click)="deleteTask()">Delete Task</button>
+      <button class="delete" (click)="openDeleteTaskModal()">
+        Delete Task
+      </button>
     </div>
   </ng-template>
 </div>
